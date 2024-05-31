@@ -43,13 +43,12 @@
 
         .main {
             margin-left: 100px;
-            /* Adjust based on navbar width */
             padding: 20px;
         }
 
         .mesas-container {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(6, 2fr);
         }
 
         .mesa {
@@ -57,7 +56,7 @@
         }
 
         .mesa img {
-            width: 180px;
+            width: 150px;
             height: auto;
         }
 
@@ -84,7 +83,7 @@
             font-weight: bold;
             color: #fff;
             text-align: center;
-            font-size: 15px;
+            font-size: 12px;
             margin-bottom: 60px;
         } 
     </style>
@@ -131,25 +130,25 @@
         <h:form>
             <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
                 <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
-                    value="ADICIONAR MESA" icon="pi pi-check" iconPos="right" action="#{mesaBean.adicionarMesa}"
+                    value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" action="#{mesaBean.adicionarMesa}"
                     update="mesas" />
             </div>
             <div class="mesas-container">
-                <div class="mesa">
-                    <h:graphicImage value="img/mesaLivre.png" class="image" />
+                <div class="mesa" onclick="mostrarDialogo()" style="cursor:pointer;">
+                    <h:graphicImage value="img/mesaLivre.png"   class="image" />
                     <div class="number-overlay"><b>01</b></div>
-                </div>
-                <div class="mesa">
-                    <h:graphicImage value="img/mesaOcupada.png" class="image" />
-                    <div class="number-overlay"><b>02</b></div>
-                </div>
-                <div class="mesa">
-                    <h:graphicImage value="img/mesaAndamento.png" class="image" />
-                    <div class="number-overlay"><b>03</b></div>
                 </div>
             </div>
         </h:form>
+        <p:dialog header="Título do Diálogo" widgetVar="dialogo" modal="true" resizable="false">
+            Conteúdo do Diálogo aqui...
+        </p:dialog>
     </div>
+    <script>
+        function mostrarDialogo() {
+            PF('dialogo').show();
+        }
+    </script>
 </h:body>
 
 </html>
