@@ -1,4 +1,4 @@
-	package com.projetointegrador.comandafacil;
+	package com.projetointegrador;
 
 	import java.util.HashSet;
 	import java.util.Set;
