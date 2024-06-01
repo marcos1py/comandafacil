@@ -26,7 +26,6 @@ public class ComandaControl {
             itensCardapio.add(itemCardapio); 
             itemCardapio = new ItemCardapio();
             System.out.println("Item salvo com sucesso!");
-       
     }
 
     public ItemCardapio getItemCardapio() {

@@ -88,14 +88,17 @@
             font-size: 12px;
             margin-bottom: 60px;
         }
+
         .cheap {
-        background-color: transparent !important;
-        background-image: none !important;
-        color: #000 !important;
-    }
-    .ui-datatable tbody > tr.cheap {
-        border-color: #ff0000 !important; /* Cor da borda vermelha */
-    }
+            background-color: transparent !important;
+            background-image: none !important;
+            color: #000 !important;
+        }
+
+        .ui-datatable tbody>tr.cheap {
+            border-color: #ff0000 !important;
+            /* Cor da borda vermelha */
+        }
     </style>
 </h:head>
 <h:body style="background-color: #DDAC7E;">
@@ -119,6 +122,16 @@
                 <p:menuitem value="Lista de Usuários" />
             </p:submenu>
         </p:menu>
+        <p:commandButton id="estoqueButton" icon="pi pi-fw pi-box" styleClass="ui-button-flat" style="color: #fff;" />
+        <p:menu overlay="true" trigger="estoqueButton" my="left top" at="right top">
+            <p:submenu label="Gestão de Estoque">
+                <p:menuitem value="Todos produtos do estoque"/>
+                <p:menuitem value="Adicionar itens ao estoque"/>
+                <p:menuitem value="Saida itens ao estoque"/>
+            </p:submenu>
+        </p:menu>
+        <p:commandButton id="logoutButton" icon="pi pi-fw pi-power-off" styleClass="ui-button-flat"
+            style="color: #fff;" />
         <p:commandButton id="relatorioButton" icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat"
             style="color: #fff;" />
         <p:menu overlay="true" trigger="relatorioButton" my="left top" at="right top">
@@ -140,10 +153,10 @@
         <h:form>
             <h2>Cadastro de Alimento/bebidas</h2>
             <div style="display: flex; justify-content: flex-end; margin: 20px;">
-                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
-                    value="Adicionar " icon="pi pi-plus" iconPos="right" onclick="PF('dialogItensCardapio').show()" />
+                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="Adicionar "
+                    icon="pi pi-plus" iconPos="right" onclick="PF('dialogItensCardapio').show()" />
             </div>
-        
+
             <p:dataTable id="idItensCardapio" value="#{ComandaControl.itensCardapio}" var="item" editable="true">
                 <p:column headerText="Nome">
                     <p:cellEditor>
@@ -173,7 +186,8 @@
         </h:form>
     </div>
 
-    <p:dialog header="Adicionar Item ao cardápio" widgetVar="dialogItensCardapio" minHeight="40" width="350" showEffect="fade" modal="true" closeOnEscape="true">
+    <p:dialog header="Adicionar Item ao cardápio" widgetVar="dialogItensCardapio" minHeight="40" width="350"
+        showEffect="fade" modal="true" closeOnEscape="true">
         <h:form>
             <h:panelGrid columns="2">
                 <h:outputLabel for="nome" value="Nome:" />
@@ -181,7 +195,8 @@
                 <h:outputLabel for="preco" value="Preço:" />
                 <h:inputText id="preco" value="#{ComandaControl.itemCardapio.preco}" />
             </h:panelGrid>
-            <p:commandButton value="Salvar" action="#{ComandaControl.salvar}" onclick="PF('dialogItensCardapio').hide()" />
+            <p:commandButton value="Salvar" action="#{ComandaControl.salvar}"
+                onclick="PF('dialogItensCardapio').hide()" />
         </h:form>
     </p:dialog>
 </h:body>
