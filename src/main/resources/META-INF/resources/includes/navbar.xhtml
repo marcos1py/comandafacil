@@ -1,7 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <style>
         .navbar {
@@ -45,6 +43,8 @@
         <div class="comanda">
             COMANDA FACIL
         </div>
+        <p:commandButton id="homeButton" icon="pi pi-fw pi-home" styleClass="ui-button-flat" style="color: #fff;" />
+
         <p:commandButton id="cardapioButton" icon="pi pi-fw pi-th-large" styleClass="ui-button-flat"
             style="color: #fff;" />
         <p:menu overlay="true" trigger="cardapioButton" my="left top" at="right top">
@@ -57,7 +57,6 @@
             style="color: #fff;" />
         <p:menu overlay="true" trigger="usuariosButton" my="left top" at="right top">
             <p:submenu label="Usuários">
-                <p:menuitem value="Adicionar Usuário" />
                 <p:menuitem value="Lista de Usuários" />
             </p:submenu>
         </p:menu>
