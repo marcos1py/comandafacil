@@ -1,31 +1,39 @@
 package com.projetointegrador.cardapio;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
-@ManagedBean
-@ViewScoped
-public class ComandaControl {
+@Component("comandaControl") 
+@SessionScope
+public class ComandaControl implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private ItemCardapio itemCardapio = new ItemCardapio();
     private List<ItemCardapio> itensCardapio;
 
-    @Inject
+    @Autowired
     private ItemCardapioDao itemCardapioDao;
 
     @PostConstruct
-    public void iniciar(){
+    public void iniciar() {
         itensCardapio = itemCardapioDao.findAll();
     }
 
     public void salvar() {
-            itemCardapioDao.save(itemCardapio);
-            itensCardapio.add(itemCardapio); 
-            itemCardapio = new ItemCardapio();
-            System.out.println("Item salvo com sucesso!");
+        itemCardapioDao.save(itemCardapio);
+        itemCardapio = new ItemCardapio();  
+        itensCardapio = itemCardapioDao.findAll(); 
+    }
+
+    public void deletar(ItemCardapio item) {
+        itemCardapioDao.delete(item);
+        itensCardapio.remove(item);
     }
 
     public ItemCardapio getItemCardapio() {

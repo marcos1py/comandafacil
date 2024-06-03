@@ -1,0 +1,2 @@
+<p:commandButton value="Salvar" action="#{ComandaControl.salvar}"
+<p:commandButton value="Salvar" action="#{comandaControl.salvar}"

@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <style>
+        .navbar {
+            height: 100%;
+            width: 80px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #5B3C31;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        .navbar img.logo {
+            width: 60px;
+            margin-bottom: 40px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .navbar a .pi {
+            font-size: 24px;
+        }
+
+        .comanda {
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 60px;
+        }
+    </style>
+    <div class="navbar">
+        <div class="comanda">
+            COMANDA FACIL
+        </div>
+        <p:commandButton id="cardapioButton" icon="pi pi-fw pi-th-large" styleClass="ui-button-flat"
+            style="color: #fff;" />
+        <p:menu overlay="true" trigger="cardapioButton" my="left top" at="right top">
+            <p:submenu label="Cardapio">
+                <p:menuitem value="Adicionar Comida/bebidas" />
+                <p:menuitem value="Lista de Comida/bebidas" />
+            </p:submenu>
+        </p:menu>
+        <p:commandButton id="usuariosButton" icon="pi pi-fw pi-users" styleClass="ui-button-flat"
+            style="color: #fff;" />
+        <p:menu overlay="true" trigger="usuariosButton" my="left top" at="right top">
+            <p:submenu label="Usuários">
+                <p:menuitem value="Adicionar Usuário" />
+                <p:menuitem value="Lista de Usuários" />
+            </p:submenu>
+        </p:menu>
+        <p:commandButton id="estoqueButton" icon="pi pi-fw pi-box" styleClass="ui-button-flat" style="color: #fff;" />
+        <p:menu overlay="true" trigger="estoqueButton" my="left top" at="right top">
+            <p:submenu label="Gestão de Estoque">
+                <p:menuitem value="Todos produtos do estoque" />
+                <p:menuitem value="Adicionar itens ao estoque" />
+                <p:menuitem value="Saida itens ao estoque" />
+            </p:submenu>
+        </p:menu>
+        <p:commandButton id="relatorioButton" icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat"
+            style="color: #fff;" />
+        <p:menu overlay="true" trigger="relatorioButton" my="left top" at="right top">
+            <p:submenu label="Relatórios">
+                <p:menuitem value="Relatório de Vendas" />
+                <p:menuitem value="Relatório de Estoque" />
+            </p:submenu>
+        </p:menu>
+        <p:commandButton id="sairButton" icon="pi pi-fw pi-sign-out" styleClass="ui-button-flat" style="color: #fff;" />
+    </div>
+
+</ui:composition>

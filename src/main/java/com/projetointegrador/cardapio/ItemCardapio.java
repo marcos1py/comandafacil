@@ -13,8 +13,8 @@ public class ItemCardapio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nome;
-    private double preco;
+    public String nome;
+    public double preco;
 
     @ManyToOne
     private Cardapio cardapio;
@@ -50,6 +50,4 @@ public class ItemCardapio {
     public void setCardapio(Cardapio cardapio) {
         this.cardapio = cardapio;
     }
-
-    
 }
