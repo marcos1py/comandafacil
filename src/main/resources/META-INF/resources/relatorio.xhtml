@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+>
+
+<h:head>
+    <title>Comanda Facil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .main {
+            margin-left: 100px;
+            padding: 20px;
+        }
+    </style>
+</h:head>
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/navbar.xhtml" />
+    <ui:include src="includes/logo.xhtml" />
+
+    <div class="main">
+
+        <h3> Relatorio</h3>
+        <div style="display: flex; justify-content: flex-end; margin: 20px;">
+            <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="Adicionar " icon="pi pi-plus" iconPos="right" onclick="PF('dialogItensCardapio').show()" />
+        </div>
+        <p:dataTable var="product" value="#{dtBasicView.products}">
+
+            <p:column field="Data" filterable="false" />
+
+            <p:column headerText="N° de venda" sortBy="#{customer.name}" filterBy="#{customer.name}">
+                <h:outputText value="#{customer.name}" />
+            </p:column>
+
+            <p:column headerText="Cliente" var="venda" sortBy=" #{customer.name} " filterBy="#{customer.name} ">
+                <h:outputText value="#{venda.nome} " />
+            </p:column>
+
+            <p:column headerText="Desconto " sortBy="#{customer.name} " filterBy="#{customer.name} ">
+                <h:outputText value="#{customer.name} " />
+            </p:column>
+            <p:column headerText="Pagamento " sortBy="#{customer.name} " filterBy="#{customer.name} ">
+                <h:outputText value="#{customer.name}" />
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:body>
+
+
+</html>

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
 >
 
 <h:head>
@@ -13,108 +11,23 @@
             padding: 0;
             box-sizing: border-box;
         }
-
-        .navbar {
-            height: 100%;
-            width: 80px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #5B3C31;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-        }
-
-        .navbar img.logo {
-            width: 60px;
-            margin-bottom: 40px;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .navbar a .pi {
-            font-size: 24px;
-        }
-
+        
         .main {
             margin-left: 100px;
             padding: 20px;
-        }
-
-        .mesas-container {
-            display: grid;
-            grid-template-columns: repeat(6, 2fr);
-        }
-
-        .mesa {
-            text-align: center;
-        }
-
-        .mesa img {
-            width: 150px;
-            height: auto;
-        }
-
-        .number-overlay {
-            position: relative;
-            font-size: 60px;
-            color: white;
-            text-shadow: #000 1px -1px 4px, #000 -1px 1px 2px, #000 1px 1px 2px, #000 -1px -1px 2px;
-            z-index: 1;
-            top: -50%;
-        }
-
-        .image {
-            width: 11%;
-            position: relative;
-        }
-
-        .mesa {
-            position: relative;
-            margin: 0;
-        }
-
-        .comanda {
-            font-weight: bold;
-            color: #fff;
-            text-align: center;
-            font-size: 12px;
-            margin-bottom: 60px;
-        }
-
-        .cheap {
-            background-color: transparent !important;
-            background-image: none !important;
-            color: #000 !important;
-        }
-
-        .ui-datatable tbody>tr.cheap {
-            border-color: #ff0000 !important;
         }
     </style>
 </h:head>
 <h:body style="background-color: #DDAC7E;">
     <ui:include src="includes/navbar.xhtml" />
+    <ui:include src="includes/logo.xhtml" />
 
     <div class="main">
-        <div style="display: flex; align-items: center; justify-content: center;">
-            <div>
-                <h:graphicImage value="img/logo.png" style="width: 20%; opacity: 0;" />
-            </div>
-            <h:graphicImage value="img/logo.png" style="width: 20%; position: absolute; left: 40%; top: 10px;" />
-        </div>
+
         <h:form id="formCardapio">
             <h2>Cadastro de Alimento/bebidas</h2>
             <div style="display: flex; justify-content: flex-end; margin: 20px;">
-                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="Adicionar "
-                    icon="pi pi-plus" iconPos="right" onclick="PF('dialogItensCardapio').show()" />
+                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="Adicionar " icon="pi pi-plus" iconPos="right" onclick="PF('dialogItensCardapio').show()" />
             </div>
 
             <p:dataTable id="idItensCardapio" value="#{comandaControl.itensCardapio}" var="item">
@@ -129,8 +42,7 @@
         </h:form>
     </div>
 
-    <p:dialog header="Adicionar Item ao cardápio" widgetVar="dialogItensCardapio" minHeight="40" width="350"
-        showEffect="fade" modal="true" closeOnEscape="true">
+    <p:dialog header="Adicionar Item ao cardápio" widgetVar="dialogItensCardapio" minHeight="40" width="350" showEffect="fade" modal="true" closeOnEscape="true">
         <h:form>
             <h:panelGrid columns="2">
                 <h:outputLabel for="nome" value="Nome:" />
@@ -138,8 +50,7 @@
                 <h:outputLabel for="preco" value="Preço:" />
                 <h:inputText id="preco" value="#{comandaControl.itemCardapio.preco}" />
             </h:panelGrid>
-            <p:commandButton value="Salvar" action="#{comandaControl.salvar}" onclick="PF('dialogItensCardapio').hide()"
-                process="@form" update=":formCardapio:idItensCardapio"/>
+            <p:commandButton value="Salvar" action="#{comandaControl.salvar}" onclick="PF('dialogItensCardapio').hide()" process="@form" update=":formCardapio:idItensCardapio" />
         </h:form>
     </p:dialog>
 </h:body>

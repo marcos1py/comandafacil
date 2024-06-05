@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
     <title>Comanda Facil</title>
@@ -11,25 +10,26 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         .main {
             margin-left: 100px;
             padding: 20px;
         }
-
+        
         .mesas-container {
             display: grid;
             grid-template-columns: repeat(6, 2fr);
         }
-
+        
         .mesa {
             text-align: center;
         }
-
+        
         .mesa img {
             width: 150px;
             height: auto;
         }
-
+        
         .number-overlay {
             position: relative;
             font-size: 60px;
@@ -38,12 +38,12 @@
             z-index: 1;
             top: -50%;
         }
-
+        
         .image {
             width: 11%;
             position: relative;
         }
-
+        
         .mesa {
             position: relative;
             margin: 0;
@@ -51,24 +51,19 @@
     </style>
 </h:head>
 <h:body style="background-color: #DDAC7E;">
+
     <ui:include src="includes/navbar.xhtml" />
+    <ui:include src="includes/logo.xhtml" />
 
     <div class="main">
-        <div style="display: flex; align-items: center; justify-content: center;">
-            <div>
-                <h:graphicImage value="img/logo.png" style="width: 20%; opacity: 0;" />
-            </div>
-            <h:graphicImage value="img/logo.png" style="width: 20%; position: absolute; left: 40%; top: 10px;" />
-        </div>
+
         <h:form>
             <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
-                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
-                    value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" action="#{mesaBean.adicionarMesa}"
-                    update="mesas" />
+                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" action="#{mesaBean.adicionarMesa}" update="mesas" />
             </div>
             <div class="mesas-container">
-                <div class="mesa" onclick="mostrarDialogo()" style="cursor:pointer;">
-                    <h:graphicImage value="img/mesaLivre.png"   class="image" />
+                <div class="mesa" onclick="PF('dialogo').show();" style="cursor:pointer;">
+                    <h:graphicImage value="img/mesaLivre.png" class="image" />
                     <div class="number-overlay"><b>01</b></div>
                 </div>
             </div>
@@ -77,11 +72,6 @@
             Conteúdo do Diálogo aqui...
         </p:dialog>
     </div>
-    <script>
-        function mostrarDialogo() {
-            PF('dialogo').show();
-        }
-    </script>
 </h:body>
 
 </html>
