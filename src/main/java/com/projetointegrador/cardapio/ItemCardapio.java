@@ -38,13 +38,6 @@ public class ItemCardapio {
         this.nome = nome;
     }
 
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
 
     public Cardapio getCardapio() {
         return cardapio;
@@ -64,5 +57,17 @@ public class ItemCardapio {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+
+
+    public double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+
+
+    public void setPrecoUnitario(double precoUnitario) {
+        this.precoUnitario = precoUnitario;
     }
 }
