@@ -43,7 +43,7 @@
 	
 			FacesInitializer facesInitializer = new FacesInitializer();
 			facesInitializer.onStartup(clazz, servletContext);
-		}
+		}	
 	
 		@Bean
 		public ServletListenerRegistrationBean<JsfApplicationObjectConfigureListener> jsfConfigureListener() {
