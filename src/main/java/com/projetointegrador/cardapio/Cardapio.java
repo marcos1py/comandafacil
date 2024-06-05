@@ -1,12 +1,14 @@
 package com.projetointegrador.cardapio;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Cardapio {
@@ -16,7 +18,7 @@ public class Cardapio {
     private Integer id;
 
     private String nome;
-
+    
     @OneToMany(mappedBy = "cardapio", cascade = CascadeType.ALL)
     private List<ItemCardapio> itens = new ArrayList<>();
 
