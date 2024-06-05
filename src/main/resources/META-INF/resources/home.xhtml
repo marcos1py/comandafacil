@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:p="http://primefaces.org/ui" 
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:f="http://xmlns.jcp.org/jsf/core" 
+xmlns:h="http://xmlns.jcp.org/jsf/html" 
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+xmlns:spring="http://www.springframework.org/schema/beans">
 
 <h:head>
     <title>Comanda Facil</title>
@@ -10,26 +16,26 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         .main {
             margin-left: 100px;
             padding: 20px;
         }
-        
+
         .mesas-container {
             display: grid;
             grid-template-columns: repeat(6, 2fr);
         }
-        
+
         .mesa {
             text-align: center;
         }
-        
+
         .mesa img {
             width: 150px;
             height: auto;
         }
-        
+
         .number-overlay {
             position: relative;
             font-size: 60px;
@@ -38,12 +44,12 @@
             z-index: 1;
             top: -50%;
         }
-        
+
         .image {
             width: 11%;
             position: relative;
         }
-        
+
         .mesa {
             position: relative;
             margin: 0;
@@ -51,27 +57,76 @@
     </style>
 </h:head>
 <h:body style="background-color: #DDAC7E;">
-
     <ui:include src="includes/navbar.xhtml" />
+
     <ui:include src="includes/logo.xhtml" />
 
     <div class="main">
-
-        <h:form>
+        <h:form id="formHome">
             <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
-                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" action="#{mesaBean.adicionarMesa}" update="mesas" />
+                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
+                    value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" onclick="PF('dialogoAddMesa').show();" />
             </div>
-            <div class="mesas-container">
-                <div class="mesa" onclick="PF('dialogo').show();" style="cursor:pointer;">
-                    <h:graphicImage value="img/mesaLivre.png" class="image" />
-                    <div class="number-overlay"><b>01</b></div>
-                </div>
+            <div id="idMesas" class="mesas-container">
+                
+                <ui:repeat value="#{mesaControl.mesas}" var="mesa">
+                    <div class="mesa" onclick="PF('dialogoMesa').show();" style="cursor:pointer;">
+                        <h:graphicImage value="img/mesaLivre.png" class="image" />
+                        <div class="number-overlay"><b>#{mesa.numero}</b></div>
+                    </div>
+                </ui:repeat>
             </div>
         </h:form>
-        <p:dialog header="Título do Diálogo" widgetVar="dialogo" modal="true" resizable="false">
-            Conteúdo do Diálogo aqui...
+
+        <p:dialog header="NUMERO DA MESAS: #{mesa.numero} " widgetVar="dialogoMesa" modal="true" resizable="false">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel value="Ocupantes:" />
+                <h:outputLabel value="1" />
+
+                <h:outputLabel for="ocupantes" value="Ocupantes:" />
+                <p:inputText id="ocupantes" value="#{bean.ocupantes}" required="true" label="Ocupantes" />
+
+                <h:outputLabel for="cupom" value="Cupom:" />
+                <p:inputText id="cupom" value="#{bean.cupom}" label="Cupom" />
+
+                <h:outputLabel for="tempoChegada" value="Tempo (Horas de Chegada):" />
+                <p:inputText id="tempoChegada" value="#{bean.tempoChegada}" required="true"
+                    label="Tempo (Horas de Chegada)" />
+
+                <h:outputLabel for="totalPagar" value="Total a Pagar:" />
+                <p:inputText id="totalPagar" value="#{bean.totalPagar}" required="true" label="Total a Pagar" />
+                <f:facet name="footer" style="">
+                    <div style="text-align: center;">
+                        <p:commandButton value="Abrir mesa" action="#{MUDAR.salvarMesa}" outcome="/AAA.xhtml" />
+                        <h:outputLabel value="  " />
+
+                        <p:commandButton value="Fechar" oncomplete="PF('dialogoMesa').hide();" />
+                    </div>
+                </f:facet>
+            </h:panelGrid>
+        </p:dialog>
+
+        <p:dialog header="Adicionar Mesa" widgetVar="dialogoAddMesa" modal="true" resizable="false">
+
+            <h:form>
+
+
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <h:outputLabel for="numeroMesa" value="Número da Mesa:" />
+                <p:inputText rendered="true" requiredMessage="COLOCA ALGO AI POHA" id="numeroMesa" value="#{mesaControl.mesa.numero}" required="true"
+                    label="Número da Mesa" />
+
+            </h:panelGrid>
+
+                <p:commandButton value="Salvar" action="#{mesaControl.salvarMesa}" process="@form, @this" 
+                    oncomplete="PF('dialogoAddMesa').hide();" update=":formHome"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('dialogoAddMesa').hide();" />
+        </h:form>
+
         </p:dialog>
     </div>
+
 </h:body>
 
 </html>
