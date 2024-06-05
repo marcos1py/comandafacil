@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Comanda</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #d9534f; /* Vermelho */
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .content {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .left-side {
+            width: 50%;
+            padding: 10px;
+            border-right: 1px solid #ddd;
+        }
+
+        .right-side {
+            width: 50%;
+            padding: 10px;
+        }
+
+        .container-button {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .container-button button {
+            background-color: #f4f4f4;
+            border: none;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container-button button:hover {
+            background-color: #ddd;
+        }
+
+        .exclude-item-button {
+            padding: 8px 15px;
+            background-color: #d9534f; /* Vermelho */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .exclude-item-button:hover {
+            background-color: #c9302c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .total {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</h:head>
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/navbar.xhtml" />
+    <div class="container">
+        <div class="header">
+            <h1>COMANDA: Mesa 01</h1>
+        </div>
+
+        <div class="content">
+            <div class="left-side">
+                <h2>Cardápio Rápido</h2>
+                <div class="container-button">
+                    <p:commandButton value="Refrigerante Lata Coca" actionListener="#{comandaBean.adicionarItem('Refrigerante Lata Coca', 6)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Hamburguer" actionListener="#{comandaBean.adicionarItem('Hamburguer', 14)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Refrigerante 600ml Fanta Uva" actionListener="#{comandaBean.adicionarItem('Refrigerante 600ml Fanta Uva', 8)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Porção Batata com Bacon Grande" actionListener="#{comandaBean.adicionarItem('Porção Batata com Bacon Grande', 20)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Cachorro Quente Super" actionListener="#{comandaBean.adicionarItem('Cachorro Quente Super', 14)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Americano" actionListener="#{comandaBean.adicionarItem('Americano', 12)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="X Salada" actionListener="#{comandaBean.adicionarItem('X Salada', 12)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Refrigerante 600ml Coca" actionListener="#{comandaBean.adicionarItem('Refrigerante 600ml Coca', 8)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="X Tudo" actionListener="#{comandaBean.adicionarItem('X Tudo', 18)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="X Burguer" actionListener="#{comandaBean.adicionarItem('X Burguer', 16)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="X Bacon" actionListener="#{comandaBean.adicionarItem('X Bacon', 16)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton value="Refrigerante 1 Litro Sprite" actionListener="#{comandaBean.adicionarItem('Refrigerante 1 Litro Sprite', 10)}" update="itensComanda, total" styleClass="item-button" />
+                </div>
+            </div>
+
+            <div class="right-side">
+                <h2>Cliente</h2>
+                <div class="form-group">
+                    <h:outputLabel for="cliente" value="Consumidor Padrão:" />
+                    <p:inputText id="cliente" value="Consumidor Padrão" readonly="true" />
+                </div>
+                <div class="form-group">
+                    <p:commandButton value="Buscar" styleClass="search-button"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel for="codigo" value="Código:" />
+                    <p:inputText id="codigo" value="" readonly="true" />
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <h:outputLabel for="descricao" value="Descrição do item:" />
+                        <p:inputText id="descricao" value="X Salada" readonly="true" />
+                    </div>
+                    <div class="form-group">
+                        <p:commandButton value="Buscar" styleClass="search-button"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="quantidade" value="Quantidade:" />
+                        <p:inputNumber id="quantidade" value="1" readonly="true" />
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="precoUnitario" value="Preço Unitário:" />
+                        <p:inputNumber id="precoUnitario" value="12" readonly="true" />
+                    </div>
+                </div>
+
+                <h2>Itens do Pedido</h2>
+                <p:dataTable id="itensComanda" var="item" value="#{comandaBean.itensComanda}">
+                    <p:column headerText="Item">
+                        <h:outputText value="#{item.descricao}" />
+                    </p:column>
+                    <p:column headerText="Preço Unit.">
+                        <h:outputText value="#{item.precoUnitario}" />
+                    </p:column>
+                    <p:column headerText="Quantidade">
+                        <h:outputText value="#{item.quantidade}" />
+                    </p:column>
+                    <p:column headerText="Subtotal">
+                        <h:outputText value="#{item.subtotal}" />
+                    </p:column>
+                    <p:column headerText="Excluir Item">
+                        <p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>
+                    </p:column>
+                </p:dataTable>
+
+                <div class="total">
+                    <h:outputText id="total" value="Total: #{comandaBean.total}" />
+                </div>
+
+                <div class="button-group">
+                    <p:commandButton value="Sair da Comanda" />
+                    <p:commandButton value="Imprimir Preparo" />
+                    <p:commandButton value="Finalizar Venda" />
+                    <p:commandButton value="Cancelar Mesa" />
+                </div>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

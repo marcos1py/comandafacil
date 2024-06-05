@@ -14,7 +14,8 @@ public class ItemCardapio {
     private Integer id;
 
     public String nome;
-    public double preco;
+    public double precoUnitario;
+    public String descricao;
 
     @ManyToOne
     private Cardapio cardapio;
@@ -23,6 +24,8 @@ public class ItemCardapio {
         return id;
     }
 
+
+    
     public void setId(Integer id) {
         this.id = id;
     }
@@ -49,5 +52,17 @@ public class ItemCardapio {
 
     public void setCardapio(Cardapio cardapio) {
         this.cardapio = cardapio;
+    }
+
+
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

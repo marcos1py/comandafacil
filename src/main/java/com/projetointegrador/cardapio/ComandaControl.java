@@ -31,6 +31,12 @@ public class ComandaControl implements Serializable {
         itensCardapio = itemCardapioDao.findAll(); 
     }
 
+    public void salvarItensComprados() {
+        itemCardapioDao.save(itemCardapio);
+        itemCardapio = new ItemCardapio();  
+        itensCardapio = itemCardapioDao.findAll(); 
+    }
+
     public void deletar(ItemCardapio item) {
         itemCardapioDao.delete(item);
         itensCardapio.remove(item);
