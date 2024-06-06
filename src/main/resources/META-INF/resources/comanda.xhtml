@@ -124,18 +124,18 @@
             <div class="left-side">
                 <h2>Cardápio Rápido</h2>
                 <div class="container-button">
-                    <p:commandButton value="Refrigerante Lata Coca" actionListener="#{comandaBean.adicionarItem('Refrigerante Lata Coca', 6)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Hamburguer" actionListener="#{comandaBean.adicionarItem('Hamburguer', 14)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Refrigerante 600ml Fanta Uva" actionListener="#{comandaBean.adicionarItem('Refrigerante 600ml Fanta Uva', 8)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Porção Batata com Bacon Grande" actionListener="#{comandaBean.adicionarItem('Porção Batata com Bacon Grande', 20)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Cachorro Quente Super" actionListener="#{comandaBean.adicionarItem('Cachorro Quente Super', 14)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Americano" actionListener="#{comandaBean.adicionarItem('Americano', 12)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="X Salada" actionListener="#{comandaBean.adicionarItem('X Salada', 12)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Refrigerante 600ml Coca" actionListener="#{comandaBean.adicionarItem('Refrigerante 600ml Coca', 8)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="X Tudo" actionListener="#{comandaBean.adicionarItem('X Tudo', 18)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="X Burguer" actionListener="#{comandaBean.adicionarItem('X Burguer', 16)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="X Bacon" actionListener="#{comandaBean.adicionarItem('X Bacon', 16)}" update="itensComanda, total" styleClass="item-button" />
-                    <p:commandButton value="Refrigerante 1 Litro Sprite" actionListener="#{comandaBean.adicionarItem('Refrigerante 1 Litro Sprite', 10)}" update="itensComanda, total" styleClass="item-button" />
+                    <p:commandButton type="button" value="Refrigerante Lata Coca" onclick="adicionarItem(1)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Hamburguer" onclick="adicionarItem(2)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Refrigerante 600ml Fanta Uva" onclick="adicionarItem(3)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Porção Batata com Bacon Grande" onclick="adicionarItem(4)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Cachorro Quente Super" onclick="adicionarItem(5)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Americano" onclick="adicionarItem(6)" styleClass="item-button" />
+                    <p:commandButton type="button" value="X Salada" onclick="adicionarItem(7)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Refrigerante 600ml Coca" onclick="adicionarItem(8)" styleClass="item-button" />
+                    <p:commandButton type="button" value="X Tudo" onclick="adicionarItem(9)" styleClass="item-button" />
+                    <p:commandButton type="button" value="X Burguer" onclick="adicionarItem(10)" styleClass="item-button" />
+                    <p:commandButton type="button" value="X Bacon" onclick="adicionarItem(11)" styleClass="item-button" />
+                    <p:commandButton type="button" value="Refrigerante 1 Litro Sprite" onclick="adicionarItem(12)" styleClass="item-button" />
                 </div>
             </div>
 
@@ -155,52 +155,168 @@
                 <div class="form-group">
                     <div class="form-group">
                         <h:outputLabel for="descricao" value="Descrição do item:" />
-                        <p:inputText id="descricao" value="X Salada" readonly="true" />
+                        <p:inputText id="descricao" value="#{comandaBean.itemSelecionado.descricao}" readonly="true" />
                     </div>
                     <div class="form-group">
                         <p:commandButton value="Buscar" styleClass="search-button"/>
                     </div>
                     <div class="form-group">
                         <h:outputLabel for="quantidade" value="Quantidade:" />
-                        <p:inputNumber id="quantidade" value="1" readonly="true" />
+                        <p:inputNumber id="quantidade" value="#{comandaBean.itemSelecionado.quantidade}" readonly="true" />
                     </div>
                     <div class="form-group">
                         <h:outputLabel for="precoUnitario" value="Preço Unitário:" />
-                        <p:inputNumber id="precoUnitario" value="12" readonly="true" />
+                        <p:inputNumber id="precoUnitario" value="#{comandaBean.itemSelecionado.precoUnitario}" readonly="true" />
                     </div>
                 </div>
 
-                <h2>Itens do Pedido</h2>
-                <p:dataTable id="itensComanda" var="item" value="#{comandaBean.itensComanda}">
-                    <p:column headerText="Item">
-                        <h:outputText value="#{item.descricao}" />
-                    </p:column>
-                    <p:column headerText="Preço Unit.">
-                        <h:outputText value="#{item.precoUnitario}" />
-                    </p:column>
-                    <p:column headerText="Quantidade">
-                        <h:outputText value="#{item.quantidade}" />
-                    </p:column>
-                    <p:column headerText="Subtotal">
-                        <h:outputText value="#{item.subtotal}" />
-                    </p:column>
-                    <p:column headerText="Excluir Item">
-                        <p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>
-                    </p:column>
-                </p:dataTable>
+                <h:form>
+                    <div class="items-container">
+                        <div class="item" id="itensComanda">
+                            <ui:repeat value="#{comandaBean.itensComanda}" var="item" varStatus="status">
+                                <div class="item-row">
+                                    <div class="item-descricao">
+                                        <h:outputText value="#{item.descricao}" />
+                                    </div>
+                                    <div class="item-quantidade">
+                                        <h:outputText value="#{item.quantidade}" />
+                                    </div>
+                                    <div class="item-subtotal">
+                                        <h:outputText value="#{item.subtotal}" />
+                                    </div>
+                                    <div class="item-excluir">
+                                        <p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </div>
 
-                <div class="total">
-                    <h:outputText id="total" value="Total: #{comandaBean.total}" />
-                </div>
+                    <p:outputPanel id="total" styleClass="total">
+                        <h:outputText value="Total: #{comandaBean.total}" />
+                    </p:outputPanel>
 
-                <div class="button-group">
-                    <p:commandButton value="Sair da Comanda" />
-                    <p:commandButton value="Imprimir Preparo" />
-                    <p:commandButton value="Finalizar Venda" />
-                    <p:commandButton value="Cancelar Mesa" />
-                </div>
+                    <div class="button-group">
+                        <p:commandButton value="Sair da Comanda" />
+                        <p:commandButton value="Imprimir Preparo" />
+                        <p:commandButton value="Finalizar Venda" />
+                        <p:commandButton value="Cancelar Mesa" />
+                    </div>
+
+                    <p:remoteCommand name="adicionarItemComanda" action="#{comandaBean.adicionarItemComanda}" update="itensComanda, total" />
+                </h:form>
             </div>
         </div>
     </div>
+
+    <script>
+        function adicionarItem(itemId) {
+            // Simula um objeto ItemCardapio com informações estáticas
+            var descricao;
+            var precoUnitario;
+
+            switch (itemId) {
+                case 1:
+                    descricao = "Refrigerante Lata Coca";
+                    precoUnitario = 5.0;
+                    break;
+                case 2:
+                    descricao = "Hamburguer";
+                    precoUnitario = 15.0;
+                    break;
+                case 3:
+                    descricao = "Refrigerante 600ml Fanta Uva";
+                    precoUnitario = 8.0;
+                    break;
+                case 4:
+                    descricao = "Porção Batata com Bacon Grande";
+                    precoUnitario = 20.0;
+                    break;
+                case 5:
+                    descricao = "Cachorro Quente Super";
+                    precoUnitario = 10.0;
+                    break;
+                case 6:
+                    descricao = "Americano";
+                    precoUnitario = 12.0;
+                    break;
+                case 7:
+                    descricao = "X Salada";
+                    precoUnitario = 18.0;
+                    break;
+                case 8:
+                    descricao = "Refrigerante 600ml Coca";
+                    precoUnitario = 8.0;
+                    break;
+                case 9:
+                    descricao = "X Tudo";
+                    precoUnitario = 22.0;
+                    break;
+                case 10:
+                    descricao = "X Burguer";
+                    precoUnitario = 16.0;
+                    break;
+                case 11:
+                    descricao = "X Bacon";
+                    precoUnitario = 17.0;
+                    break;
+                case 12:
+                    descricao = "Refrigerante 1 Litro Sprite";
+                    precoUnitario = 10.0;
+                    break;
+                default:
+                    descricao = "";
+                    precoUnitario = 0.0;
+                    break;
+            }
+
+            // Monta o objeto de item selecionado
+            var itemSelecionado = {
+                descricao: descricao,
+                precoUnitario: precoUnitario,
+                quantidade: 1,
+                subtotal: precoUnitario
+            };
+
+            // Atualiza os campos do formulário com os valores do item selecionado
+            document.getElementById('form:descricao').value = itemSelecionado.descricao;
+            document.getElementById('form:quantidade').value = itemSelecionado.quantidade;
+            document.getElementById('form:precoUnitario').value = itemSelecionado.precoUnitario.toFixed(2);
+
+            // Atualiza a lista de itens do pedido (tabela)
+            var table = document.getElementById('itensComanda');
+            var row = table.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+
+            cell1.innerHTML = itemSelecionado.descricao;
+            cell2.innerHTML = itemSelecionado.precoUnitario.toFixed(2);
+            cell3.innerHTML = itemSelecionado.quantidade;
+            cell4.innerHTML = itemSelecionado.subtotal.toFixed(2);
+            cell5.innerHTML = '<p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>';
+
+            // Calcula e atualiza o total
+            var total = document.getElementById('total');
+            var totalValue = parseFloat(total.innerHTML.replace('Total: ', '').trim());
+            totalValue += itemSelecionado.subtotal;
+            total.innerHTML = 'Total: ' + totalValue.toFixed(2);
+
+            // Chama o p:remoteCommand para adicionar o item na comanda no backend
+            adicionarItemComanda([{name: 'descricao', value: itemSelecionado.descricao}, {name: 'quantidade', value: itemSelecionado.quantidade}, {name: 'precoUnitario', value: itemSelecionado.precoUnitario}]);
+        }
+
+        function excluirItem(button) {
+            var row = button.parentNode.parentNode;
+            var subtotal = parseFloat(row.cells[3].innerHTML);
+            var total = document.getElementById('total');
+            var totalValue = parseFloat(total.innerHTML.replace('Total: ', '').trim());
+            totalValue -= subtotal;
+            total.innerHTML = 'Total: ' + totalValue.toFixed(2);
+            row.parentNode.removeChild(row);
+        }
+    </script>
 </h:body>
 </html>
