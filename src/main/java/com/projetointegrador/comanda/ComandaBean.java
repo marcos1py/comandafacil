@@ -1,49 +1,35 @@
 package com.projetointegrador.comanda;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 @ManagedBean
 @ViewScoped
-public class ComandaBean implements Serializable {
-
-    private List<ItemComanda> itensComanda;
-    private BigDecimal total;
-
-    @PostConstruct
-    public void init() {
-        itensComanda = new ArrayList<>();
-        total = BigDecimal.ZERO;
-    }
+public class ComandaBean {
+    private List<ItemComanda> itensComanda = new ArrayList<>();
+    private double total;
 
     public List<ItemComanda> getItensComanda() {
         return itensComanda;
     }
 
-    public BigDecimal getTotal() {
+    public double getTotal() {
+        total = itensComanda.stream().mapToDouble(ItemComanda::getSubtotal).sum();
         return total;
     }
 
-    public void adicionarItem(String descricao, BigDecimal precoUnitario) {
-        ItemComanda item = new ItemComanda(descricao, precoUnitario);
+    public void adicionarItemComanda(String descricao, int quantidade, double precoUnitario) {
+        ItemComanda item = new ItemComanda();
+        item.setDescricao(descricao);
+        item.setQuantidade(quantidade);
+        item.setPrecoUnitario(precoUnitario);
+        item.setSubtotal(quantidade * precoUnitario);
         itensComanda.add(item);
-        calcularTotal();
     }
 
     public void excluirItem(ItemComanda item) {
         itensComanda.remove(item);
-        calcularTotal();
-    }
-
-    private void calcularTotal() {
-        total = BigDecimal.ZERO;
-        for (ItemComanda item : itensComanda) {
-            total = total.add(item.getSubtotal());
-        }
     }
 }
