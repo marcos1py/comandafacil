@@ -1,9 +1,11 @@
 package com.projetointegrador.home;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-
+import java.util.Optional;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ public class MesaControl implements Serializable {
 
     private Mesa mesa = new Mesa();
     private List<Mesa> mesas;
+    private Mesa mesaTemp;
 
     @Autowired
     private MesaDao mesaDao;
@@ -24,13 +27,47 @@ public class MesaControl implements Serializable {
     @PostConstruct
     public void iniciar() {
         mesas = mesaDao.findAll();
+        mesaTemp = new Mesa();
     }
 
-    public void salvarMesa() {
-        System.out.println("MESA TESTE : " +  mesa);
+    public MesaControl() {
+        mesaTemp = new Mesa();
+    }
+
+    public void adicionarMesa() {
+        mesa.reinicializarAtributos();
         mesaDao.save(mesa);
         mesas = mesaDao.findAll();
         mesa = new Mesa();
+    }
+
+    public void atualizarDadosDaMesa() {
+        Optional<Mesa> mesaOptional = mesaDao.findById(mesa.getNumero());
+        Mesa mesaToUpdate = mesaOptional.get();
+        mesaToUpdate.setOcupantes(mesa.getOcupantes());
+        mesaToUpdate.setCupom(mesa.getCupom());
+        mesaToUpdate.setTempoChegada(mesa.getTempoChegada());
+        mesaToUpdate.setTotalPagar(mesa.getTotalPagar());
+        mesaDao.save(mesaToUpdate);
+        int index = mesas.indexOf(mesaToUpdate);
+        mesas.set(index, mesaToUpdate);
+        mesa.reinicializarAtributos();  
+    }
+public void abrirMesa() {
+    // Armazena o número da mesa como parâmetro na URL
+    int numeroMesa = mesa.getNumero();
+    try {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("abrirComanda.xhtml?mesa=" + numeroMesa);
+    } catch (IOException e) {
+        e.printStackTrace(); // Trate o erro adequadamente
+    }
+}
+    public Mesa getMesaTemp() {
+        return mesaTemp;
+    }
+
+    public void setMesaTemp(Mesa mesaTemp) {
+        this.mesaTemp = mesaTemp;
     }
 
     public Mesa getMesa() {
@@ -48,8 +85,4 @@ public class MesaControl implements Serializable {
     public void setMesas(List<Mesa> mesas) {
         this.mesas = mesas;
     }
-
-    
-
-
 }
