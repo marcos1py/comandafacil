@@ -42,35 +42,20 @@
             COMANDA FACIL
         </div>
         <p:button id="homeButton" icon="pi pi-fw pi-home" styleClass="ui-button-flat" style="color: #fff;" outcome="/home.xhtml" />
+        <p:button id="cardapioButton" icon="pi pi-fw pi-th-large" styleClass="ui-button-flat" style="color: #fff;" outcome="/cardapio.xhtml" />
 
-        <p:commandButton id="cardapioButton" icon="pi pi-fw pi-th-large" styleClass="ui-button-flat" style="color: #fff;" />
-        <p:menu overlay="true" trigger="cardapioButton" my="left top" at="right top">
-            <p:submenu label="Cardapio">
-                <p:menuitem value="Adicionar Comida/bebidas" outcome="/cardapio.xhtml" />
-                <p:menuitem value="Lista de Comida/bebidas" outcome="/cardapio.xhtml" />
-            </p:submenu>
-        </p:menu>
         <p:commandButton id="usuariosButton" icon="pi pi-fw pi-users" styleClass="ui-button-flat" style="color: #fff;" />
         <p:menu overlay="true" trigger="usuariosButton" my="left top" at="right top">
             <p:submenu label="Usuários">
                 <p:menuitem value="Lista de Usuários" outcome="/listausuario.xhtml" />
             </p:submenu>
         </p:menu>
-        <p:commandButton id="estoqueButton" icon="pi pi-fw pi-box" styleClass="ui-button-flat" style="color: #fff;" />
-        <p:menu overlay="true" trigger="estoqueButton" my="left top" at="right top">
-            <p:submenu label="Gestão de Estoque">
-                <p:menuitem value="Todos produtos do estoque" outcome="/gestaoestoque.xhtml" />
-                <p:menuitem value="Adicionar itens ao estoque" />
-                <p:menuitem value="Saida itens ao estoque" />
-            </p:submenu>
-        </p:menu>
-        <p:commandButton id="relatorioButton" icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat" style="color: #fff;" />
-        <p:menu overlay="true" trigger="relatorioButton" my="left top" at="right top">
-            <p:submenu label="Relatórios">
-                <p:menuitem value="Relatório de Vendas" outcome="/relatorio.xhtml" />
-                <p:menuitem value="Relatório de Estoque" />
-            </p:submenu>
-        </p:menu>
+        <p:button id="idCozinha" icon="pi pi-fw pi-shopping-cart" styleClass="ui-button-flat" style="color: #fff;" outcome="/cozinha.xhtml" />
+
+        <p:button id="estoqueButton"   icon="pi pi-fw pi-box" styleClass="ui-button-flat" style="color: #fff;" outcome="/gestaoestoque.xhtml" />
+
+        <p:button id="relatorioButton"  icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat" style="color: #fff;" outcome="/relatorio.xhtml" />
+
         <p:commandButton id="sairButton" icon="pi pi-fw pi-sign-out" styleClass="ui-button-flat" style="color: #fff;" />
     </div>
 
