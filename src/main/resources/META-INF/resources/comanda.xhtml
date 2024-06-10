@@ -116,6 +116,7 @@
         }
     </style>
 </h:head>
+
 <h:body style="background-color: #DDAC7E;">
     <ui:include src="includes/navbar.xhtml" />
     <div class="container">
@@ -159,7 +160,7 @@
                     <p:inputText id="cliente" value="Consumidor Padrão" readonly="true" />
                 </div>
                 <div class="form-group">
-                    <p:commandButton value="Buscar" styleClass="search-button" />
+                    <p:commandButton value="Buscar" styleClass="search-button"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel for="codigo" value="Código:" />
@@ -171,17 +172,15 @@
                         <p:inputText id="descricao" value="#{comandaBean.itemSelecionado.descricao}" readonly="true" />
                     </div>
                     <div class="form-group">
-                        <p:commandButton value="Buscar" styleClass="search-button" />
+                        <p:commandButton value="Buscar" styleClass="search-button"/>
                     </div>
                     <div class="form-group">
                         <h:outputLabel for="quantidade" value="Quantidade:" />
-                        <p:inputNumber id="quantidade" value="#{comandaBean.itemSelecionado.quantidade}"
-                            readonly="true" />
+                        <p:inputNumber id="quantidade" value="#{comandaBean.itemSelecionado.quantidade}" readonly="true" />
                     </div>
                     <div class="form-group">
                         <h:outputLabel for="precoUnitario" value="Preço Unitário:" />
-                        <p:inputNumber id="precoUnitario" value="#{comandaBean.itemSelecionado.precoUnitario}"
-                            readonly="true" />
+                        <p:inputNumber id="precoUnitario" value="#{comandaBean.itemSelecionado.precoUnitario}" readonly="true" />
                     </div>
                 </div>
 
@@ -200,9 +199,7 @@
                                         <h:outputText value="#{item.subtotal}" />
                                     </div>
                                     <div class="item-excluir">
-                                        <p:commandButton value="Excluir"
-                                            actionListener="#{comandaBean.excluirItem(item)}"
-                                            update="itensComanda, total" styleClass="exclude-item-button" />
+                                        <p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>
                                     </div>
                                 </div>
                             </ui:repeat>
@@ -220,8 +217,7 @@
                         <p:commandButton value="Cancelar Mesa" />
                     </div>
 
-                    <p:remoteCommand name="adicionarItemComanda" action="#{comandaBean.adicionarItemComanda}"
-                        update="itensComanda, total" />
+                    <p:remoteCommand name="adicionarItemComanda" action="#{comandaBean.adicionarItemComanda}" update="itensComanda, total" />
                 </h:form>
             </div>
         </div>
@@ -229,7 +225,6 @@
 
     <script>
         function adicionarItem(itemId) {
-            // Simula um objeto ItemCardapio com informações estáticas
             var descricao;
             var precoUnitario;
 
@@ -297,9 +292,9 @@
             };
 
             // Atualiza os campos do formulário com os valores do item selecionado
-            document.getElementById('form:descricao').value = itemSelecionado.descricao;
-            document.getElementById('form:quantidade').value = itemSelecionado.quantidade;
-            document.getElementById('form:precoUnitario').value = itemSelecionado.precoUnitario.toFixed(2);
+            document.getElementById('formComanda:descricao').value = itemSelecionado.descricao;
+            document.getElementById('formComanda:quantidade').value = itemSelecionado.quantidade;
+            document.getElementById('formComanda:precoUnitario').value = itemSelecionado.precoUnitario.toFixed(2);
 
             // Atualiza a lista de itens do pedido (tabela)
             var table = document.getElementById('itensComanda');
