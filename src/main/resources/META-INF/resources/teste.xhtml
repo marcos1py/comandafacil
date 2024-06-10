@@ -1,0 +1,27 @@
+<div class="card">
+    <h:form>
+        <p:dataList value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
+            <f:facet name="header">
+                Scroll Down to Load More Products
+            </f:facet>
+
+            <div class="product">
+                <div class="product-list-item p-5">
+                    <p:graphicImage name="demo/images/product/#{product.image}"/>
+                    <div class="product-list-detail">
+                        <div class="product-name">#{item.nome}</div>
+                        <div class="product-description">#{item.descricao}</div>
+                    </div>
+                    <div class="product-list-action">
+                        <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                        <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart"
+                                       >
+                        </p:commandButton>
+                    </div>
+                </div>
+            </div>
+        </p:dataScroller>
+    </h:form>
+</div>
