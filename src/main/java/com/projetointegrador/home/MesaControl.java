@@ -36,8 +36,19 @@ public class MesaControl implements Serializable {
 
     public void adicionarMesa() {
         mesa.reinicializarAtributos();
-        mesaDao.save(mesa);
-        mesas = mesaDao.findAll();
+        boolean existe = false;
+    
+        for (Mesa m : mesas) {
+            if (mesa.getNumero() == m.getNumero()) {
+                existe = true;
+            }
+        }
+    
+        if (!existe) {
+            mesaDao.save(mesa);
+            mesas.add(mesa); 
+            System.out.println("Mesa cadastrada com sucesso");
+        }
         mesa = new Mesa();
     }
 
@@ -53,15 +64,7 @@ public class MesaControl implements Serializable {
         mesas.set(index, mesaToUpdate);
         mesa.reinicializarAtributos();  
     }
-public void abrirMesa() {
-    // Armazena o número da mesa como parâmetro na URL
-    int numeroMesa = mesa.getNumero();
-    try {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("abrirComanda.xhtml?mesa=" + numeroMesa);
-    } catch (IOException e) {
-        e.printStackTrace(); // Trate o erro adequadamente
-    }
-}
+
     public Mesa getMesaTemp() {
         return mesaTemp;
     }

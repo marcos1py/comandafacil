@@ -17,6 +17,7 @@
         .main {
             margin-left: 100px;
             padding: 20px;
+            margin-top: 20px;
         }
 
         .mesas-container {
@@ -56,40 +57,38 @@
 
 
         .invisible-button {
-        position: absolute !important;
-        top: 15% !important;
-        left: 25% !important;
-        width: 50% !important;
-        height: 50% !important;
-        background: transparent !important;
-        border: none !important;
-        cursor: pointer !important;
-        z-index: 2 !important;
-    }
+            position: absolute !important;
+            top: 15% !important;
+            left: 25% !important;
+            width: 50% !important;
+            height: 50% !important;
+            background: transparent !important;
+            border: none !important;
+            cursor: pointer !important;
+            z-index: 2 !important;
+        }
     </style>
 </h:head>
 <h:body style="background-color: #DDAC7E;">
     <ui:include src="includes/navbar.xhtml" />
-
     <ui:include src="includes/logo.xhtml" />
 
     <div class="main">
         <h:form id="formHome">
             <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
                 <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
-                    value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" onclick="PF('dialogoAddMesa').show();" />
+                    actionListener="#{mesaControl.mesa.re}" value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right"
+                    onclick="PF('dialogoAddMesa').show();" />
             </div>
             <div id="idMesas" class="mesas-container">
-
                 <ui:repeat value="#{mesaControl.mesas}" var="mesa">
-                    <div class="mesa" >
-
-                        <h:graphicImage value="img/mesaLivre.png" class="image" />
+                    <div class="mesa">
+                        <h:graphicImage id="idImgMesa" value="img/mesa#{mesa.status}.png" class="image" />
                         <div class="number-overlay">#{mesa.numero}<b></b></div>
                         <p:commandButton oncomplete="PF('dialogoMesa').show()" update="idDialogoMesa"
-                        actionListener="#{mesaControl.setMesa(mesa)}" value=" " process="@this" styleClass="invisible-button"/>
+                            actionListener="#{mesaControl.setMesa(mesa)}" value=" " process="@this"
+                            styleClass="invisible-button" />
                     </div>
-
                 </ui:repeat>
             </div>
         </h:form>
@@ -103,21 +102,28 @@
                     <h:outputLabel value="Número da Mesa (input):" />
                     <p:inputText id="NumeroMesainput" value="#{mesaControl.mesa.numero}" disabled="true"
                         required="false" label="Número da Mesa" />
+                    <h:outputLabel value="Mesa status:" />
+                    <p:selectOneButton value="#{mesaControl.mesa.status}">
+                        <f:selectItem itemLabel="Livre" itemValue="Livre" />
+                        <f:selectItem itemLabel="Andamento" itemValue="Andamento" />
+                        <f:selectItem itemLabel="Ocupada" itemValue="Ocupada" />
+                    </p:selectOneButton>
                     <h:outputLabel for="ocupantes" value="Ocupantes:" />
-                    <p:inputText id="ocupantes" value="#{mesaControl.mesa.ocupantes}" required="true"
-                        label="Ocupantes" />
+                    <p:inputText id="ocupantes" value="#{mesaControl.mesa.ocupantes}" label="Ocupantes" />
                     <h:outputLabel for="cupom" value="Cupom:" />
                     <p:inputText id="cupom" value="#{mesaControl.mesa.cupom}" label="Cupom" />
                     <h:outputLabel for="tempoChegada" value="Tempo (Horas de Chegada):" />
-                    <p:inputText id="tempoChegada" value="#{mesaControl.mesa.tempoChegada}" required="true"
+                    <p:inputText id="tempoChegada" value="#{mesaControl.mesa.tempoChegada}"
                         label="Tempo (Horas de Chegada)" />
                     <h:outputLabel for="totalPagar" value="Total a Pagar:" />
-                    <p:inputText id="totalPagar" value="#{mesaControl.mesa.totalPagar}" required="true"
-                        label="Total a Pagar" />
+                    <p:inputText id="totalPagar" value="#{mesaControl.mesa.totalPagar}" label="Total a Pagar" />
                     <h:panelGrid columns="4" cellpadding="5">
-                        <p:commandButton value="Abrir mesa" outcome="/AAA.xhtml" style="background-color: blue;" />
-                        <p:commandButton value="Salvar" update=":formHome"  action="#{mesaControl.atualizarDadosDaMesa}"
-                            oncomplete="PF('dialogoMesa').hide();" process="@form, @this"
+                        <p:commandButton value="Abrir mesa" process="@form, @this"
+                            action="#{mesaControl.atualizarDadosDaMesa}"
+                            onclick="window.location.href='comanda.xhtml'; return false;"
+                            style="background-color: blue;" />
+                        <p:commandButton value="Salvar" update=":formHome" action="#{mesaControl.atualizarDadosDaMesa}"
+                            oncomplete="PF('dialogoMesa').hide(); recarregarPagina()" process="@form, @this"
                             style="background-color: green;" />
                         <p:commandButton value="Fechar" oncomplete="PF('dialogoMesa').hide();"
                             style="background-color: red;" />
@@ -141,4 +147,9 @@
     </div>
 </h:body>
 
+<script>
+    function recarregarPagina() {
+        location.reload();
+    }
+</script>
 </html>

@@ -17,6 +17,7 @@ public class Mesa {
     private int ocupantes = 0;
     private String cupom = "";
     private String tempoChegada = "";
+    private String status = "Livre";
     private double totalPagar = 0.0;
 
     // Getters and Setters
@@ -25,10 +26,12 @@ public class Mesa {
     }
     public void reinicializarAtributos() {
         this.ocupada = false;
-        this.ocupantes = 0; // Defina aqui o valor padrão para 'ocupantes'
-        this.cupom = ""; // Defina aqui o valor padrão para 'cupom'
-        this.tempoChegada = ""; // Defina aqui o valor padrão para 'tempoChegada'
-        this.totalPagar = 0.0; // Defina aqui o valor padrão para 'totalPagar'
+        this.ocupantes = 0; 
+        this.cupom = ""; 
+        this.tempoChegada = ""; 
+        this.totalPagar = 0.0; 
+        this.status = "Livre"; 
+
     }
     public void setId(Integer id) {
         this.id = id;
@@ -80,5 +83,11 @@ public class Mesa {
 
     public void setTotalPagar(double totalPagar) {
         this.totalPagar = totalPagar;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

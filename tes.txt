@@ -1,28 +1,148 @@
-<p:speedDial direction="down" showIcon="pi pi-bars" hideIcon="pi pi-times" 
-                                                                                 id="menuButtonDownDirection_#{tsk.id}" >
-                                                                        <p:menuitem icon="pi pi-play" oncomplete="PF('timersTaskKanban').show()" global="false"  
-                                                                                    process="@this" update="pnlHorasTaskKanban" title="Horas gastas"
-                                                                                    actionListener="#{agendaController.setTaskInViewKanban(tsk)}"/>
-                                                                      
-                                                                        <p:menuitem icon="pi pi-user" oncomplete="PF('altRespKbn').show()" global="false"
-                                                                                    process="@this" update="pnlEditarUsrTaskKanban" title="Editar responsÃ¡vel"
-                                                                                    actionListener="#{agendaController.setTaskInViewKanban(tsk)}"/>
-                                                                        <p:menuitem icon="pi pi-book" oncomplete="PF('dadosTaskKanban').show()" global="false"
-                                                                                    process="@this" update="pnlDadosTaskKanban" title="InformaÃ§Ãµes da tarefa"
-                                                                                    actionListener="#{agendaController.setTaskInViewKanban(tsk)}"/>
-                                                                    </p:speedDial>
-                                                                    
-                                                                    
-                                                                      <p:dialog header="Horas gastas na tarefa" widgetVar="timersTaskKanban" hideEffect="clip" showEffect="clip" modal="true" closable="true" resizable="true" draggable="true">
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/schema/beans">
+
+<h:head>
+    <title>Comanda Facil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            margin-left: 100px;
+            padding: 20px;
+        }
+
+        .mesas-container {
+            display: grid;
+            grid-template-columns: repeat(6, 2fr);
+        }
+
+        .mesa {
+            text-align: center;
+            position: relative;
+            margin: 0;
+        }
+
+        .mesa img {
+            width: 150px;
+            height: auto;
+        }
+
+        .number-overlay {
+            position: relative;
+            font-size: 60px;
+            color: white;
+            text-shadow: #000 1px -1px 4px, #000 -1px 1px 2px, #000 1px 1px 2px, #000 -1px -1px 2px;
+            z-index: 1;
+            top: -50%;
+        }
+
+        .image {
+            width: 11%;
+            position: relative;
+        }
+
+        .mesa {
+            position: relative;
+            margin: 0;
+        }
 
 
-  <p:menuitem  global="false"
-                                                                                    process="@this"  title="ObservaÃ§Ãµes"
-                                                                                    actionListener="#{agendaController.setTaskInViewKanban(tsk)}"/>
+        .invisible-button {
+            position: absolute !important;
+            top: 15% !important;
+            left: 25% !important;
+            width: 50% !important;
+            height: 50% !important;
+            background: transparent !important;
+            border: none !important;
+            cursor: pointer !important;
+            z-index: 2 !important;
+        }
+    </style>
+</h:head>
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/navbar.xhtml" />
 
-        <h:form prependId="false">
+    <ui:include src="includes/logo.xhtml" />
 
-            <h:panelGroup id="pnlHorasTaskKanban">
+    <div class="main">
+        <h:form id="formHome">
+            <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
+                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
+                    value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right" onclick="PF('dialogoAddMesa').show();" />
+            </div>
+            <div id="idMesas" class="mesas-container">
 
-                <div style="width: 402px;">
-                    <div style="display: flex;">
+                <ui:repeat value="#{mesaControl.mesas}" var="mesa">
+                    <div class="mesa">
+
+                        <h:graphicImage value="img/mesaLivre.png" class="image" />
+                        <div class="number-overlay">#{mesa.numero}<b></b></div>
+                        <p:commandButton oncomplete="PF('dialogoMesa').show()" update="idDialogoMesa"
+                            actionListener="#{mesaControl.setMesa(mesa)}" value=" " process="@this"
+                            styleClass="invisible-button" />
+                    </div>
+
+                </ui:repeat>
+            </div>
+        </h:form>
+
+        <p:dialog header="Informações da mesa" id="idDialogoMesa" widgetVar="dialogoMesa" modal="true"
+            resizable="false">
+            <h:form id="formAtualizaMesa">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel value="Número da Mesa:" />
+                    <h:outputLabel id="NumeroMesa" value="#{mesaControl.mesa.numero}" />
+                    <h:outputLabel value="Número da Mesa (input):" />
+                    <p:inputText id="NumeroMesainput" value="#{mesaControl.mesa.numero}" disabled="true"
+                        required="false" label="Número da Mesa" />
+                    <h:outputLabel for="ocupantes" value="Ocupantes:" />
+                    <p:inputText id="ocupantes" value="#{mesaControl.mesa.ocupantes}" required="true"
+                        label="Ocupantes" />
+                    <h:outputLabel for="cupom" value="Cupom:" />
+                    <p:inputText id="cupom" value="#{mesaControl.mesa.cupom}" label="Cupom" />
+                    <h:outputLabel for="tempoChegada" value="Tempo (Horas de Chegada):" />
+                    <p:inputText id="tempoChegada" value="#{mesaControl.mesa.tempoChegada}" required="true"
+                        label="Tempo (Horas de Chegada)" />
+                    <h:outputLabel for="totalPagar" value="Total a Pagar:" />
+                    <p:inputText id="totalPagar" value="#{mesaControl.mesa.totalPagar}" required="true"
+                        label="Total a Pagar" />
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <p:commandButton value="Abrir mesa" process="@form, @this"
+                            action="#{mesaControl.atualizarDadosDaMesa}"
+                            onclick="window.location.href='comanda.xhtml'; return false;"
+                            style="background-color: blue;" />
+                        <p:commandButton value="Salvar" update=":formHome" action="#{mesaControl.atualizarDadosDaMesa}"
+                            oncomplete="PF('dialogoMesa').hide();" process="@form, @this"
+                            style="background-color: green;" />
+                        <p:commandButton value="Fechar" oncomplete="PF('dialogoMesa').hide();"
+                            style="background-color: red;" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Adicionar Mesa" widgetVar="dialogoAddMesa" modal="true" resizable="false">
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="numeroMesa" value="Número da Mesa:" />
+                    <p:inputText id="numeroMesa" value="#{mesaControl.mesa.numero}" required="true"
+                        label="Número da Mesa" />
+                </h:panelGrid>
+                <p:commandButton value="Salvar" action="#{mesaControl.adicionarMesa}" process="@form, @this"
+                    oncomplete="PF('dialogoAddMesa').hide();" update=":formHome" />
+                <p:commandButton value="Cancelar" oncomplete="PF('dialogoAddMesa').hide();" />
+            </h:form>
+        </p:dialog>
+    </div>
+</h:body>
+
+</html>
