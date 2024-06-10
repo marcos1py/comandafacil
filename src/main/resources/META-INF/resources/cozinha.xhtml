@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Kanban Cozinha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            margin-left: 100px;
+            padding: 20px;
+        }
+
+        .kanban-board {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .kanban-column {
+            width: 30%;
+            background-color: #F0F0F0;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .kanban-column h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .kanban-card {
+            background-color: #FFF;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: move;
+        }
+    </style>
+</h:head>
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/navbar.xhtml"/>
+    <ui:include src="includes/logo.xhtml"/>
+    <div class="main">
+        <h3> Cozinha </h3>
+        <div class="kanban-board">
+
+            <div class="kanban-column">
+                <h3>Pedidos Recebidos</h3>
+                
+                <p:panel id="pedido1" header="Pedido 1" styleClass="kanban-card">
+                    <h:outputText value="Item 1, Item 2, Item 3"/>
+                </p:panel>
+                <p:draggable for="pedido1" revert="true"/>
+
+                <p:panel id="pedido2" header="Pedido 2" styleClass="kanban-card">
+                    <h:outputText value="Item 4, Item 5, Item 6"/>
+                </p:panel>
+                <p:draggable for="pedido2" revert="true"/>
+                <p:panel id="pedido3" header="Pedido 3" styleClass="kanban-card">
+                    <h:outputText value="Item 7, Item 8, Item 9"/>
+                </p:panel>
+                <p:draggable for="pedido3" revert="true"/>
+            </div>
+
+            <div class="kanban-column">
+                <h3>Em Preparação</h3>
+                <p:panel id="preparacao1" styleClass="kanban-card">
+                    <h:outputText value="Nenhum pedido em preparação"/>
+                </p:panel>
+                <p:droppable for="preparacao1" />
+            </div>
+
+
+            <div class="kanban-column">
+                <h3>Pronto para Entrega</h3>
+                <p:panel id="entrega1" styleClass="kanban-card">
+                    <h:outputText value="Nenhum pedido pronto para entrega"/>
+                </p:panel>
+                <p:droppable for="entrega1" />
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>
