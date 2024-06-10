@@ -149,11 +149,35 @@
                                     </p:commandButton>
                                 </div>
                             </div>
+                        </div>
+                    </p:dataScroller>
+                </h:form>
+            </div>
+            <div>
+                <h:form>
+                    <p:dataScroller value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
+                        <f:facet name="header">
+                            itens do cardápio
+                        </f:facet> 
+                        <div class="">
+                            <div class="">
+                                <p:graphicImage name="img/comida.jpg" style="width: 200px" />
+                                <div class="product-list-detail">
+                                    <div class="product-name">#{item.nome}</div>
+                                    <div class="product-description">#{item.descricao}</div>
+                                </div>
+                                <div class="product-list-action">
+                                    <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
+                                        <f:convertNumber currencySymbol="$" type="currency" />
+                                    </h:outputText>
+                                    <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart">
+                                    </p:commandButton>
+                                </div>
+                            </div>
                         </div> 
                     </p:dataScroller>
                 </h:form> 
             </div>
-
             <div class="right-side">
                 <h2>Cliente</h2>
                 <div class="form-group">
