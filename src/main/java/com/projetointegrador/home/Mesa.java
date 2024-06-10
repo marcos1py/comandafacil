@@ -13,14 +13,26 @@ public class Mesa {
     private Integer id;
 
     private int numero;
-    
-    private int status;
+    private boolean ocupada;
+    private int ocupantes = 0;
+    private String cupom = "";
+    private String tempoChegada = "";
+    private String status = "Livre";
+    private double totalPagar = 0.0;
 
-
+    // Getters and Setters
     public Integer getId() {
         return id;
     }
+    public void reinicializarAtributos() {
+        this.ocupada = false;
+        this.ocupantes = 0; 
+        this.cupom = ""; 
+        this.tempoChegada = ""; 
+        this.totalPagar = 0.0; 
+        this.status = "Livre"; 
 
+    }
     public void setId(Integer id) {
         this.id = id;
     }
@@ -33,4 +45,49 @@ public class Mesa {
         this.numero = numero;
     }
 
+    public boolean isOcupada() {
+        return ocupada;
+    }
+
+    public void setOcupada(boolean ocupada) {
+        this.ocupada = ocupada;
+    }
+
+    public int getOcupantes() {
+        return ocupantes;
+    }
+
+    public void setOcupantes(int ocupantes) {
+        this.ocupantes = ocupantes;
+    }
+
+    public String getCupom() {
+        return cupom;
+    }
+
+    public void setCupom(String cupom) {
+        this.cupom = cupom;
+    }
+
+    public String getTempoChegada() {
+        return tempoChegada;
+    }
+
+    public void setTempoChegada(String tempoChegada) {
+        this.tempoChegada = tempoChegada;
+    }
+
+    public double getTotalPagar() {
+        return totalPagar;
+    }
+
+    public void setTotalPagar(double totalPagar) {
+        this.totalPagar = totalPagar;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

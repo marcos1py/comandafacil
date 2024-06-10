@@ -64,6 +64,4 @@
 				app.addELResolver(new SpringBeanFacesELResolver());
 			}
 		}	
-	
-	
 	}

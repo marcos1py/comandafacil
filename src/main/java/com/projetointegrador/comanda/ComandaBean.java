@@ -1,35 +1,84 @@
 package com.projetointegrador.comanda;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-@ManagedBean
+import com.projetointegrador.cardapio.ItemCardapio;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+@ManagedBean(name = "comandaBean")
 @ViewScoped
-public class ComandaBean {
-    private List<ItemComanda> itensComanda = new ArrayList<>();
+public class ComandaBean implements Serializable {
+
+    private ItemCardapio itemSelecionado;
+    private List<ItemCardapio> itensCardapio;
+    private List<ItemCardapio> itensComanda;
+    private ItemCardapio selectedItemCardapio;
     private double total;
 
-    public List<ItemComanda> getItensComanda() {
+    public ComandaBean() {
+        itemSelecionado = new ItemCardapio();
+        itensCardapio = new ArrayList<>();
+        itensComanda = new ArrayList<>();
+        // Inicialize os itens do cardápio
+    }
+
+    public void adicionarItemComanda() {
+        if (selectedItemCardapio != null) {
+            itensComanda.add(selectedItemCardapio);
+            total += selectedItemCardapio.getPrecoUnitario();
+            selectedItemCardapio = null; // Limpa a seleção
+        }
+    }
+
+    public void excluirItem(ItemCardapio item) {
+        itensComanda.remove(item);
+        total -= item.getPrecoUnitario();
+    }
+
+    // Getters e Setters
+
+    public ItemCardapio getItemSelecionado() {
+        return itemSelecionado;
+    }
+
+    public void setItemSelecionado(ItemCardapio itemSelecionado) {
+        this.itemSelecionado = itemSelecionado;
+    }
+
+    public List<ItemCardapio> getItensCardapio() {
+        return itensCardapio;
+    }
+
+    public void setItensCardapio(List<ItemCardapio> itensCardapio) {
+        this.itensCardapio = itensCardapio;
+    }
+
+    public List<ItemCardapio> getItensComanda() {
         return itensComanda;
     }
 
+    public void setItensComanda(List<ItemCardapio> itensComanda) {
+        this.itensComanda = itensComanda;
+    }
+
+    public ItemCardapio getSelectedItemCardapio() {
+        return selectedItemCardapio;
+    }
+
+    public void setSelectedItemCardapio(ItemCardapio selectedItemCardapio) {
+        this.selectedItemCardapio = selectedItemCardapio;
+    }
+
     public double getTotal() {
-        total = itensComanda.stream().mapToDouble(ItemComanda::getSubtotal).sum();
         return total;
     }
 
-    public void adicionarItemComanda(String descricao, int quantidade, double precoUnitario) {
-        ItemComanda item = new ItemComanda();
-        item.setDescricao(descricao);
-        item.setQuantidade(quantidade);
-        item.setPrecoUnitario(precoUnitario);
-        item.setSubtotal(quantidade * precoUnitario);
-        itensComanda.add(item);
-    }
-
-    public void excluirItem(ItemComanda item) {
-        itensComanda.remove(item);
+    public void setTotal(double total) {
+        this.total = total;
     }
 }
