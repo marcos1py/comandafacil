@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/schema/beans">
 <h:head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comanda</title>
     <style>
         body {
@@ -25,7 +25,8 @@
         }
 
         .header {
-            background-color: #d9534f; /* Vermelho */
+            background-color: #d9534f;
+            /* Vermelho */
             color: white;
             padding: 10px 0;
             text-align: center;
@@ -78,7 +79,8 @@
 
         .exclude-item-button {
             padding: 8px 15px;
-            background-color: #d9534f; /* Vermelho */
+            background-color: #d9534f;
+            /* Vermelho */
             color: white;
             border: none;
             border-radius: 4px;
@@ -95,7 +97,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 8px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -120,25 +123,35 @@
             <h1>COMANDA: Mesa #{mesaControl.mesa.numero}</h1>
         </div>
 
-        <div class="content">
+        <div class="">
             <div class="left-side">
                 <h2>Cardápio Rápido</h2>
-                <div class="container-button">
-                    <p:commandButton type="button" value="Refrigerante Lata Coca" onclick="adicionarItem(1)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Hamburguer" onclick="adicionarItem(2)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Refrigerante 600ml Fanta Uva" onclick="adicionarItem(3)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Porção Batata com Bacon Grande" onclick="adicionarItem(4)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Cachorro Quente Super" onclick="adicionarItem(5)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Americano" onclick="adicionarItem(6)" styleClass="item-button" />
-                    <p:commandButton type="button" value="X Salada" onclick="adicionarItem(7)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Refrigerante 600ml Coca" onclick="adicionarItem(8)" styleClass="item-button" />
-                    <p:commandButton type="button" value="X Tudo" onclick="adicionarItem(9)" styleClass="item-button" />
-                    <p:commandButton type="button" value="X Burguer" onclick="adicionarItem(10)" styleClass="item-button" />
-                    <p:commandButton type="button" value="X Bacon" onclick="adicionarItem(11)" styleClass="item-button" />
-                    <p:commandButton type="button" value="Refrigerante 1 Litro Sprite" onclick="adicionarItem(12)" styleClass="item-button" />
-                </div>
             </div>
-
+            <div>
+                <h:form>
+                    <p:dataScroller value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
+                        <f:facet name="header">
+                            itens do cardápio
+                        </f:facet> 
+                        <div class="">
+                            <div class="">
+                                <p:graphicImage name="img/comida.jpg" style="width: 200px" />
+                                <div class="product-list-detail">
+                                    <div class="product-name">#{item.nome}</div>
+                                    <div class="product-description">#{item.descricao}</div>
+                                </div>
+                                <div class="product-list-action">
+                                    <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
+                                        <f:convertNumber currencySymbol="$" type="currency" />
+                                    </h:outputText>
+                                    <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart">
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </p:dataScroller>
+                </h:form>
+            </div>
             <div class="right-side">
                 <h2>Cliente</h2>
                 <div class="form-group">
@@ -146,7 +159,7 @@
                     <p:inputText id="cliente" value="Consumidor Padrão" readonly="true" />
                 </div>
                 <div class="form-group">
-                    <p:commandButton value="Buscar" styleClass="search-button"/>
+                    <p:commandButton value="Buscar" styleClass="search-button" />
                 </div>
                 <div class="form-group">
                     <h:outputLabel for="codigo" value="Código:" />
@@ -158,15 +171,17 @@
                         <p:inputText id="descricao" value="#{comandaBean.itemSelecionado.descricao}" readonly="true" />
                     </div>
                     <div class="form-group">
-                        <p:commandButton value="Buscar" styleClass="search-button"/>
+                        <p:commandButton value="Buscar" styleClass="search-button" />
                     </div>
                     <div class="form-group">
                         <h:outputLabel for="quantidade" value="Quantidade:" />
-                        <p:inputNumber id="quantidade" value="#{comandaBean.itemSelecionado.quantidade}" readonly="true" />
+                        <p:inputNumber id="quantidade" value="#{comandaBean.itemSelecionado.quantidade}"
+                            readonly="true" />
                     </div>
                     <div class="form-group">
                         <h:outputLabel for="precoUnitario" value="Preço Unitário:" />
-                        <p:inputNumber id="precoUnitario" value="#{comandaBean.itemSelecionado.precoUnitario}" readonly="true" />
+                        <p:inputNumber id="precoUnitario" value="#{comandaBean.itemSelecionado.precoUnitario}"
+                            readonly="true" />
                     </div>
                 </div>
 
@@ -185,7 +200,9 @@
                                         <h:outputText value="#{item.subtotal}" />
                                     </div>
                                     <div class="item-excluir">
-                                        <p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>
+                                        <p:commandButton value="Excluir"
+                                            actionListener="#{comandaBean.excluirItem(item)}"
+                                            update="itensComanda, total" styleClass="exclude-item-button" />
                                     </div>
                                 </div>
                             </ui:repeat>
@@ -203,7 +220,8 @@
                         <p:commandButton value="Cancelar Mesa" />
                     </div>
 
-                    <p:remoteCommand name="adicionarItemComanda" action="#{comandaBean.adicionarItemComanda}" update="itensComanda, total" />
+                    <p:remoteCommand name="adicionarItemComanda" action="#{comandaBean.adicionarItemComanda}"
+                        update="itensComanda, total" />
                 </h:form>
             </div>
         </div>
@@ -305,7 +323,7 @@
             total.innerHTML = 'Total: ' + totalValue.toFixed(2);
 
             // Chama o p:remoteCommand para adicionar o item na comanda no backend
-            adicionarItemComanda([{name: 'descricao', value: itemSelecionado.descricao}, {name: 'quantidade', value: itemSelecionado.quantidade}, {name: 'precoUnitario', value: itemSelecionado.precoUnitario}]);
+            adicionarItemComanda([{ name: 'descricao', value: itemSelecionado.descricao }, { name: 'quantidade', value: itemSelecionado.quantidade }, { name: 'precoUnitario', value: itemSelecionado.precoUnitario }]);
         }
 
         function excluirItem(button) {
@@ -319,4 +337,5 @@
         }
     </script>
 </h:body>
+
 </html>

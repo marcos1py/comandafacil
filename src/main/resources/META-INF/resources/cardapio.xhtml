@@ -36,7 +36,10 @@
                 </p:column>
 
                 <p:column headerText="Preço">
-                    <h:outputText value="#{item.preco}" />
+                    <h:outputText value="#{item.precoUnitario}" />
+                </p:column>
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{item.descricao}" />
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -47,8 +50,10 @@
             <h:panelGrid columns="2">
                 <h:outputLabel for="nome" value="Nome:" />
                 <h:inputText id="nome" value="#{comandaControl.itemCardapio.nome}" />
-                <h:outputLabel for="preco" value="Preço:" />
-                <h:inputText id="preco" value="#{comandaControl.itemCardapio.preco}" />
+                <h:outputLabel for="precoUnitario" value="Preço:" />
+                <h:inputText id="precoUnitario" value="#{comandaControl.itemCardapio.precoUnitario}" />
+                <h:outputLabel for="descricao" value="descricao:" />
+                <h:inputText id="descricao" value="#{comandaControl.itemCardapio.descricao}" />
             </h:panelGrid>
             <p:commandButton value="Salvar" action="#{comandaControl.salvar}" onclick="PF('dialogItensCardapio').hide()" process="@form" update=":formCardapio:idItensCardapio" />
         </h:form>
