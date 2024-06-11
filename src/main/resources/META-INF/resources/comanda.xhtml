@@ -114,6 +114,50 @@
             font-weight: bold;
             margin-top: 20px;
         }
+        .product-scroller {
+    width: 50%;
+}
+ 
+.product-item {
+    display: flex;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.product-image {
+    width: 200px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.product-details {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.product-description {
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 1.2em;
+}
+
+.product-action {
+    margin-top: 10px;
+}
+
+.product-button {
+    width: 150px;
+}
+
+
     </style>
 </h:head>
 
@@ -128,56 +172,34 @@
             <div class="left-side">
                 <h2>Cardápio Rápido</h2>
             </div>
-            <div>
-                <h:form>
-                    <p:dataScroller value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
-                        <f:facet name="header">
-                            itens do cardápio
-                        </f:facet> 
-                        <div class="">
-                            <div class="">
-                                <p:graphicImage name="img/comida.jpg" style="width: 200px" />
-                                <div class="product-list-detail">
+                <div>
+                    <h:form>
+                        <p:inputText id="searchInput" value="#{comandaControl.searchKeyword}" placeholder="Digite sua busca" />
+                        <p:commandButton value="Buscar" action="#{comandaControl.search}" update="productScroller" />
+                    
+                        <p:dataScroller id="productScroller" value="#{comandaControl.filteredItensCardapio}" var="item" chunkSize="10" styleClass="product-scroller" mode="inline" scrollHeight="450">
+                            <f:facet name="name">Itens do Cardápio</f:facet> 
+                    
+                            <div class="product-item">
+                                <p:graphicImage name="img/comida.jpg" styleClass="product-image" />
+                                <div class="product-details">
                                     <div class="product-name">#{item.nome}</div>
                                     <div class="product-description">#{item.descricao}</div>
-                                </div>
-                                <div class="product-list-action">
-                                    <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
-                                        <f:convertNumber currencySymbol="$" type="currency" />
-                                    </h:outputText>
-                                    <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart">
-                                    </p:commandButton>
-                                </div>
-                            </div>
-                        </div>
-                    </p:dataScroller>
-                </h:form>
-            </div>
-            <div>
-                <h:form>
-                    <p:dataScroller value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
-                        <f:facet name="header">
-                            itens do cardápio
-                        </f:facet> 
-                        <div class="">
-                            <div class="">
-                                <p:graphicImage name="img/comida.jpg" style="width: 200px" />
-                                <div class="product-list-detail">
-                                    <div class="product-name">#{item.nome}</div>
-                                    <div class="product-description">#{item.descricao}</div>
-                                </div>
-                                <div class="product-list-action">
-                                    <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
-                                        <f:convertNumber currencySymbol="$" type="currency" />
-                                    </h:outputText>
-                                    <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart">
-                                    </p:commandButton>
+                                    <div class="product-price">
+                                        <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
+                                            <f:convertNumber currencySymbol="$" type="currency" />
+                                        </h:outputText>
+                                    </div>
+                                    <div class="product-action">
+                                        <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart" styleClass="product-button"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div> 
-                    </p:dataScroller>
-                </h:form> 
-            </div>
+                        </p:dataScroller>
+                    </h:form>
+                    
+                </div>
+                
             <div class="right-side">
                 <h2>Cliente</h2>
                 <div class="form-group">
