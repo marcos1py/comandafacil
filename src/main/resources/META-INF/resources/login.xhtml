@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Comanda Facil</title>
+
+</h:head>
+
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/logo.xhtml" />
+
+    <div class="main">
+        <h:form>
+            <p:panel header="Login" style="width: 370px; margin: 100px auto;">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="username" value="Usuário:" />
+                    <p:inputText id="username" value="#{loginBean.username}" required="true" />
+                    <h:outputLabel for="password" value="Senha:" />
+                    <p:password id="password" value="#{loginBean.password}" required="true" />
+                    <p:commandButton value="Entrar" action="#{loginBean.login}" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </div>
+
+</h:body>
+
+</html>
