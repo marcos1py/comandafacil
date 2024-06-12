@@ -6,7 +6,6 @@ public class ItemComanda {
     private double precoUnitario;
     private double subtotal;
 
-    // Getters and Setters
 
     public String getDescricao() {
         return descricao;

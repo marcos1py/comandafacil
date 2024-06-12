@@ -1,27 +1,264 @@
-<div class="card">
-    <h:form>
-        <p:dataList value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
-            <f:facet name="header">
-                Scroll Down to Load More Products
-            </f:facet>
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/schema/beans">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comanda</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
 
-            <div class="product">
-                <div class="product-list-item p-5">
-                    <p:graphicImage name="demo/images/product/#{product.image}"/>
-                    <div class="product-list-detail">
-                        <div class="product-name">#{item.nome}</div>
-                        <div class="product-description">#{item.descricao}</div>
-                    </div>
-                    <div class="product-list-action">
-                        <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
-                            <f:convertNumber currencySymbol="$" type="currency"/>
-                        </h:outputText>
-                        <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart"
-                                       >
-                        </p:commandButton>
-                    </div>
-                </div>
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #d9534f;
+            /* Vermelho */
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .content {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .left-side {
+            width: 50%;
+            padding: 10px;  
+            border-right: 1px solid #ddd;
+        }
+
+        .right-side {
+            width: 50%;
+            padding: 10px;
+        }
+
+        .container-button {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .container-button button {
+            background-color: #f4f4f4;
+            border: none;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container-button button:hover {
+            background-color: #ddd;
+        }
+
+        .exclude-item-button {
+            padding: 8px 15px;
+            background-color: #d9534f;
+            /* Vermelho */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .exclude-item-button:hover {
+            background-color: #c9302c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .total {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .product-scroller {
+            width: 50%;
+        }
+
+        .product-item {
+            display: flex;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .product-image {
+            width: 200px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .product-details {
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .product-description {
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.2em;
+        }
+
+        .product-action {
+            margin-top: 10px;
+        }
+
+        .product-button {
+            width: 150px;
+        }
+    </style>
+</h:head>
+
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/navbar.xhtml" />
+    <div class="container">
+        <div class="header">
+            <h1>COMANDA: Mesa #{mesaControl.mesa.numero}</h1>
+        </div>
+
+        <div class="content">
+            <div class="left-side">
+                <h2>Cardápio Rápido</h2>
+                <h:form>
+                    <p:dataScroller value="#{comandaControl.itensCardapio}" var="item" chunkSize="10" mode="inline">
+                        <f:facet name="header">
+                            Itens do Cardápio
+                        </f:facet>
+                        <div class="product-list">
+                            <div class="product-item">
+                                <p:graphicImage name="img/comida.jpg" style="width: 200px" />
+                                <div class="product-details">
+                                    <div class="product-name">#{item.nome}</div>
+                                    <div class="product-description">#{item.descricao}</div>
+                                </div>
+                                <div class="product-action">
+                                    <h:outputText value="#{item.precoUnitario}" styleClass="product-price">
+                                        <f:convertNumber currencySymbol="$" type="currency" />
+                                    </h:outputText>
+                                    <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart" 
+                                        onclick="adicionarItem('#{item.id}', '#{item.nome}', '#{item.descricao}', '#{item.precoUnitario}'); return false;" />
+                                </div>
+                            </div>
+                        </div>
+                    </p:dataScroller>
+                </h:form>
             </div>
-        </p:dataScroller>
-    </h:form>
-</div>
+
+            <div class="right-side">
+                <h2>Pedido</h2>
+                <h:form id="formComanda">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Descrição</th>
+                                <th>Nome</th>
+                                <th>Preço Unitário</th>
+                                <th>Quantidade</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itensComanda">
+                            <ui:repeat value="#{comandaControl.itensComanda}" var="item">
+                                <tr>
+                                    <td>#{item.id}</td>
+                                    <td>#{item.descricao}</td>
+                                    <td>#{item.nome}</td>
+                                    <td>
+                                        <h:outputText value="#{item.precoUnitario}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </td>
+                                    <td>#{item.quantidade}</td>
+                                    <td>
+                                        <h:outputText value="#{item.subtotal}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+
+                    <p:panelGrid columns="1" styleClass="total">
+                        <h:outputText value="Total: #{comandaControl.total}">
+                            <f:convertNumber currencySymbol="R$" type="currency" />
+                        </h:outputText>
+                    </p:panelGrid>
+
+                    <p:commandButton value="Finalizar Venda" action="#{comandaControl.finalizarVenda}"
+                                     update="formComanda" />
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function adicionarItem(id, nome, descricao, precoUnitario) {
+            adicionarItemComanda([{name: 'id', value: id}, {name: 'nome', value: nome},
+                {name: 'descricao', value: descricao}, {name: 'precoUnitario', value: precoUnitario}]);
+        }
+
+        function adicionarItemComanda(data) {
+            adicionarItem([{name: 'id', value: id}, {name: 'nome', value: nome},
+                {name: 'descricao', value: descricao}, {name: 'precoUnitario', value: precoUnitario}]);
+        }
+    </script>
+
+    <p:remoteCommand name="adicionarItem" action="#{comandaControl.adicionarItem}" update="formComanda" />
+</h:body>
+</html> 

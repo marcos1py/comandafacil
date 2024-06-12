@@ -28,7 +28,7 @@
         <div style="display: flex; justify-content: flex-end; margin: 20px;">
             <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="Adicionar " icon="pi pi-plus" iconPos="right" onclick="PF('dialogItensCardapio').show()" />
         </div>
-        <p:dataTable var="product" value="#{dtBasicView.products}">
+        <p:dataTable var="product" value="#{dtBasicView.itensDoCardapio}">
 
             <p:column field="Data" filterable="false" />
 
