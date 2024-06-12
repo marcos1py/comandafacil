@@ -18,8 +18,6 @@ public class ComandaControl implements Serializable {
 
     private ItemCardapio itemCardapio = new ItemCardapio();
     private List<ItemCardapio> itensCardapio;
-    private List<ItemCardapio> filteredItensCardapio; // Lista filtrada para exibir resultados da busca
-    private String searchKeyword; // Palavra-chave de busca
 
     @Autowired
     private ItemCardapioDao itemCardapioDao;
