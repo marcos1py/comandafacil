@@ -19,12 +19,13 @@ public class LoginBean implements Serializable {
 
     public String login() {
         if ("usuario".equals(username) && "senha".equals(password)) {
-            return "C:\\Users\\Aluno\\PI3\\comandafacil\\src\\main\\resources\\META-INF\\resources\\home.xhtml?faces-redirect=true";
+            return "home.xhtml?faces-redirect=true";
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro de login", "Usuário ou senha inválidos"));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro de login", "Usuário ou senha inválidos"));
             return null;
         }
-    }
+    }    
 
     public String getUsername() {
         return username;
