@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.CriteriaBuilder.In;
 
 import com.projetointegrador.cardapio.Cardapio;
+import com.projetointegrador.home.Mesa;
 
 import javax.persistence.*;
 
@@ -23,10 +25,12 @@ public class ItemDoCardapio implements Serializable {
     private String image;
     private double price;
     private String category;
+    public Integer quantity;
 
-    @ManyToOne
-    private Cardapio cardapio;
 
+
+        @ManyToOne
+    private Mesa mesa;
     public ItemDoCardapio() {
     }
 
@@ -38,7 +42,6 @@ public class ItemDoCardapio implements Serializable {
         this.image = image;
         this.price = price;
         this.category = category;
-     
     }
 
     @Override
@@ -46,13 +49,17 @@ public class ItemDoCardapio implements Serializable {
         return new ItemDoCardapio(getId(), getCode(), getName(), getDescription(), getImage(), getPrice(), getCategory());
     }
 
-    public Cardapio getCardapio() {
-        return cardapio;
+    public void reinicia(){
+        this.code = "";
+        this.name = "";
+        this.description = "";
+        this.price = 0.0;
+        this.category = "";
+        this.quantity = 0;
     }
 
-    public void setCardapio(Cardapio cardapio) {
-        this.cardapio = cardapio;
-    }
+
+   
 
     public Integer getId() {
         return id;
@@ -137,5 +144,17 @@ public class ItemDoCardapio implements Serializable {
         } else {
             return code.equals(other.code);
         }
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
     }
 }

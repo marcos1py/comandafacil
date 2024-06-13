@@ -17,7 +17,7 @@ public class MesaControl implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Mesa mesa = new Mesa();
+    public Mesa mesa = new Mesa();
     private List<Mesa> mesas;
     private Mesa mesaTemp;
 
