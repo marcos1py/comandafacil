@@ -26,20 +26,26 @@ import com.projetointegrador.home.MesaDao;
 @SessionScope
 public class CardapioControler implements Serializable {
     public int quatidadeTemp;
-    public Comanda comanda = new Comanda();
     private static final long serialVersionUID = 1L;
     private List<ItemDoCardapio> itensDoCardapio;
     private ItemDoCardapio selecionarItemDoCardapio;
     private List<ItemDoCardapio> selecionarItensDoCardapio;
-    private List<ItemDoCardapio> listaTempDaMesa; // Lista temporária para os itens da mesa
+    public static List<ItemDoCardapio> listaTempDaMesa; // Lista temporária para os itens da mesa
     private ItemDoCardapio itemDoCardapio;
     private List<ItemDoCardapio> filteredItensCardapio; // Lista filtrada para exibir resultados da busca
     private String searchKeyword;
+    public static int numeroDaMesa;
 
     @Autowired
     private MesaDao mesaDao;
 
+    @Autowired
     private MesaControl mesaControl;
+
+    @Autowired
+    private ComandaDao comandaDao;
+
+    private Comanda comanda;
 
     @Autowired
     private ItemCardapioDao1 itemCardapioDao1;
@@ -51,40 +57,67 @@ public class CardapioControler implements Serializable {
         this.listaTempDaMesa = new ArrayList<>();
         filteredItensCardapio = new ArrayList<>(itensDoCardapio);
         itemDoCardapio = new ItemDoCardapio(); // Initialize itemDoCardapio
-
+        this.comanda = new Comanda();
+        criarLista(mesaControl.numeroDaMesa);
     }
-
-    public void addItensMesaTemp() {
-        boolean itemExists = false;
-        for (ItemDoCardapio item : listaTempDaMesa) {
-            if (item.getName().equals(itemDoCardapio.getName())) {
-                itemExists = true;
+    public void addItensMesaTemp(Mesa mesa) {
+        Integer idDaMesa = mesa.getId();
+        boolean itemUpdated = false;
+    
+        // Check if the item already exists in comandaDao
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa().equals(idDaMesa) && comanda.getNome().equals(itemDoCardapio.getName())) {
+                // If the item exists, update the quantity
+                comanda.setQuantidade(comanda.getQuantidade() + itemDoCardapio.getQuantity());
+                comandaDao.save(comanda);
+                itemUpdated = true;
                 break;
             }
         }
-
-        if (!itemExists) {
-            ItemDoCardapio newItem = new ItemDoCardapio();
-            newItem.setName(itemDoCardapio.getName());
-            newItem.setQuantity(itemDoCardapio.getQuantity());
-            newItem.setPrice(itemDoCardapio.getPrice());
-
-
-            listaTempDaMesa.add(newItem);
-            for (ItemDoCardapio item : listaTempDaMesa) {
-                System.out.println(item.getQuantity());
-            }
-
-        } else {
-            System.out.println("Item with the same name already exists in the list.");
+    
+        // If the item does not exist, add it as a new item
+        if (!itemUpdated) {
+            Comanda newComanda = new Comanda();
+            newComanda.setIdDaMesa(idDaMesa);
+            newComanda.setNome(itemDoCardapio.getName());
+            newComanda.setPreco(itemDoCardapio.getPrice());
+            newComanda.setQuantidade(itemDoCardapio.getQuantity());
+            comandaDao.save(newComanda);
         }
-
-        // Reset itemDoCardapio
+    
+        // Clear and repopulate the temporary list
+        listaTempDaMesa.clear();
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa().equals(idDaMesa)) {
+                ItemDoCardapio temp = new ItemDoCardapio();
+                temp.setName(comanda.getNome());
+                temp.setPrice(comanda.getPreco());
+                temp.setQuantity(comanda.getQuantidade());
+                listaTempDaMesa.add(temp);
+            }
+        }
+    
+        // Reset itemDoCardapio and call reseta method
         itemDoCardapio = new ItemDoCardapio();
         reseta();
-
+    
+        // Print the quantities of items in the temporary list for debugging
         for (ItemDoCardapio item : listaTempDaMesa) {
             System.out.println(item.getQuantity());
+        }
+    }
+    
+    public void criarLista(Integer idMesa) {
+        System.out.println(idMesa);
+        listaTempDaMesa.clear();
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa() == idMesa) {
+                ItemDoCardapio temp = new ItemDoCardapio();
+                temp.setName(comanda.getNome());
+                temp.setPrice(comanda.getPreco());
+                temp.setQuantity(comanda.getQuantidade());
+                listaTempDaMesa.add(temp);
+            }
         }
     }
 
@@ -202,6 +235,10 @@ public class CardapioControler implements Serializable {
         this.searchKeyword = searchKeyword;
     }
 
+    public void resetarLista() {
+        this.listaTempDaMesa.clear();
+    }
+
     public List<ItemDoCardapio> getListaTempDaMesa() {
         return listaTempDaMesa;
     }
@@ -216,6 +253,14 @@ public class CardapioControler implements Serializable {
 
     public void setItemDoCardapio(ItemDoCardapio itemDoCardapio) {
         this.itemDoCardapio = itemDoCardapio;
+    }
+
+    public Comanda getComanda() {
+        return comanda;
+    }
+
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
     }
 
 }

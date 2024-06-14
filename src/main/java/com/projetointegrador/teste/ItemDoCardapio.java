@@ -6,11 +6,9 @@ import java.util.List;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.CriteriaBuilder.In;
 
-import com.projetointegrador.cardapio.Cardapio;
 import com.projetointegrador.home.Mesa;
 
 import javax.persistence.*;
-
 
 @Table(name = "item_do_cardapio")
 @Entity
@@ -27,14 +25,14 @@ public class ItemDoCardapio implements Serializable {
     private String category;
     public Integer quantity;
 
-
-
-        @ManyToOne
+    @ManyToOne
     private Mesa mesa;
+
     public ItemDoCardapio() {
     }
 
-    public ItemDoCardapio(int id, String code, String name, String description, String image, double price, String category) {
+    public ItemDoCardapio(int id, String code, String name, String description, String image, double price,
+            String category) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -46,10 +44,11 @@ public class ItemDoCardapio implements Serializable {
 
     @Override
     public ItemDoCardapio clone() {
-        return new ItemDoCardapio(getId(), getCode(), getName(), getDescription(), getImage(), getPrice(), getCategory());
+        return new ItemDoCardapio(getId(), getCode(), getName(), getDescription(), getImage(), getPrice(),
+                getCategory());
     }
 
-    public void reinicia(){
+    public void reinicia() {
         this.code = "";
         this.name = "";
         this.description = "";
@@ -57,9 +56,6 @@ public class ItemDoCardapio implements Serializable {
         this.category = "";
         this.quantity = 0;
     }
-
-
-   
 
     public Integer getId() {
         return id;
@@ -116,8 +112,6 @@ public class ItemDoCardapio implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
-
-
 
     @Override
     public int hashCode() {

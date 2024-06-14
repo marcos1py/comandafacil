@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.projetointegrador.teste.CardapioControler;
+
 @Component("mesaControl")
 @SessionScope
 public class MesaControl implements Serializable {
@@ -21,8 +23,13 @@ public class MesaControl implements Serializable {
     private List<Mesa> mesas;
     private Mesa mesaTemp;
 
+    public static Integer numeroDaMesa;
+
     @Autowired
     private MesaDao mesaDao;
+
+    @Autowired
+    private CardapioControler cardapioControler;
 
     @PostConstruct
     public void iniciar() {
@@ -53,6 +60,9 @@ public class MesaControl implements Serializable {
     }
 
     public void atualizarDadosDaMesa() {
+        cardapioControler.criarLista(mesa.getId());
+        cardapioControler.numeroDaMesa = mesa.getId();
+        System.out.println("Numero da mesa: " + cardapioControler.numeroDaMesa);
         Optional<Mesa> mesaOptional = mesaDao.findById(mesa.getNumero());
         Mesa mesaToUpdate = mesaOptional.get();
         mesaToUpdate.setOcupantes(mesa.getOcupantes());
@@ -62,8 +72,12 @@ public class MesaControl implements Serializable {
         mesaDao.save(mesaToUpdate);
         int index = mesas.indexOf(mesaToUpdate);
         mesas.set(index, mesaToUpdate);
-        mesa.reinicializarAtributos();  
+        this.numeroDaMesa = mesa.getNumero();
+        
+        mesa.reinicializarAtributos();
+          
     }
+    
 
     public Mesa getMesaTemp() {
         return mesaTemp;

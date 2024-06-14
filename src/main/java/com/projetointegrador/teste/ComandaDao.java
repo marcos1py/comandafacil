@@ -1,11 +1,10 @@
-package com.projetointegrador.cardapio;
+package com.projetointegrador.teste;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ItensComandaDao extends JpaRepository<ItemCardapio, Integer>{
+public interface ComandaDao extends JpaRepository<Comanda, Integer>{
     
 }
-

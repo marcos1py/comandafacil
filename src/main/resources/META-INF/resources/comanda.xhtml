@@ -124,6 +124,10 @@
     </h:head>
 
     <h:body style="background-color: #DDAC7E;">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{cardapioControler.criarLista(mesaControl.mesa.id)}" />
+        </f:metadata>
+        
         <ui:include src="includes/navbar.xhtml" />
         <ui:include src="includes/logo.xhtml" />
         <div class="main">
@@ -218,7 +222,7 @@
                 <p:outputLabel value="Quantidade:" />
                 <p:inputText id="quantity" value="#{cardapioControler.itemDoCardapio.quantity}" />
         
-                <p:commandButton value="Salvar" action="#{cardapioControler.addItensMesaTemp}" process="@form"
+                <p:commandButton value="Salvar" actionListener="#{cardapioControler.addItensMesaTemp(mesaControl.mesa)}" process="@form"
                     update="idForm2" oncomplete="PF('dialogQuantidade').hide()"/>
             </h:form>
         </p:dialog>
