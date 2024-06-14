@@ -42,7 +42,7 @@
             COMANDA FACIL
         </div>
         <p:button id="homeButton" icon="pi pi-fw pi-home" styleClass="ui-button-flat" style="color: #fff;" outcome="/home.xhtml" />
-        <p:button id="cardapioButton" icon="pi pi-fw pi-th-large" styleClass="ui-button-flat" style="color: #fff;" outcome="/cardapio.xhtml" />
+        <p:button id="cardapioButton" icon="pi pi-fw pi-th-large" styleClass="ui-button-flat" style="color: #fff;" outcome="/cardapio1.xhtml" />
 
         <p:commandButton id="usuariosButton" icon="pi pi-fw pi-users" styleClass="ui-button-flat" style="color: #fff;" />
         <p:menu overlay="true" trigger="usuariosButton" my="left top" at="right top">
@@ -56,7 +56,9 @@
 
         <p:button id="relatorioButton"  icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat" style="color: #fff;" outcome="/relatorio.xhtml" />
 
-        <p:commandButton id="sairButton" icon="pi pi-fw pi-sign-out" styleClass="ui-button-flat" style="color: #fff;" />
-    </div>
+        <h:form>
+            <p:commandButton id="sairButton" icon="pi pi-fw pi-sign-out" styleClass="ui-button-flat" style="color: #fff;" action="#{loginBean.logout}" />
+        </h:form>
+    </div>  
 
 </ui:composition>

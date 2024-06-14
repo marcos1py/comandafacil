@@ -123,6 +123,24 @@
         </style>
     </h:head>
 
+<<<<<<< HEAD
+.product-button {
+    width: 150px;
+}
+
+
+    </style>
+</h:head>
+
+<h:body style="background-color: #DDAC7E;">
+    <ui:include src="includes/navbar.xhtml" />  
+    <div class="container">
+        <div class="header">
+            <h1>COMANDA: Mesa #{mesaControl.mesa.numero}</h1>
+        </div>
+
+        <div class="">
+=======
     <h:body style="background-color: #DDAC7E;">
         <f:metadata>
             <f:event type="preRenderView" listener="#{cardapioControler.criarLista(mesaControl.mesa.id)}" />
@@ -131,6 +149,7 @@
         <ui:include src="includes/navbar.xhtml" />
         <ui:include src="includes/logo.xhtml" />
         <div class="main">
+>>>>>>> 67434c2ec738f504bb252e2ce90fdf5a91325bc1
             <div class="left-side">
                 <h2>Cardápio Rápido</h2>
             </div>
@@ -216,6 +235,12 @@
 
             </p:panelGrid>
         </div>
+<<<<<<< HEAD
+    </div>
+</h:body>
+
+</html>
+=======
        
         <p:dialog header="Quantidade do Item" showEffect="fade" modal="true" widgetVar="dialogQuantidade" responsive="true">
             <h:form id="formDialog">
@@ -235,3 +260,4 @@
     </script>
 
     </html>
+>>>>>>> 67434c2ec738f504bb252e2ce90fdf5a91325bc1

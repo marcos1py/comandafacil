@@ -1,25 +1,101 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>Comanda Facil</title>
+    <h:outputStylesheet>
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #DDAC7E;
+            font-family: 'Arial', sans-serif;
+        }
 
+        .login-panel {
+            width: 400px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-panel header {
+            font-size: 27px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #5B3C31;
+        }
+
+        .login-panel .input-group {
+            margin-bottom: 15px;
+        }
+
+        .login-panel label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .login-panel input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-panel input:focus {
+            border-color: #5B3C31;
+            outline: none;
+        }
+
+        .login-panel .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5B3C31;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .login-panel .login-button:hover {
+            background-color: #4a2e27;
+        }
+    </h:outputStylesheet>
 </h:head>
 
 <h:body style="background-color: #DDAC7E;">
     <ui:include src="includes/logo.xhtml" />
 
     <div class="main">
-        <h:form>
-            <p:panel header="Login" style="width: 370px; margin: 100px auto;">
-                <h:panelGrid columns="2" cellpadding="5">
+        <h:form id="loginForm">
+            <div class="login-panel">
+                <header>Login</header>
+                <div class="input-group">
                     <h:outputLabel for="username" value="Usuário:" />
                     <p:inputText id="username" value="#{loginBean.username}" required="true" />
+                </div>
+                <div class="input-group">
                     <h:outputLabel for="password" value="Senha:" />
                     <p:password id="password" value="#{loginBean.password}" required="true" />
-                    <p:commandButton value="Entrar" action="#{loginBean.login}" />
-                </h:panelGrid>
-            </p:panel>
+                </div>
+                <div class="input-group">
+                    <p:commandButton value="Entrar" action="#{loginBean.login}" styleClass="login-button" update="loginForm"/>
+                </div>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+            </div>
         </h:form>
     </div>
 
