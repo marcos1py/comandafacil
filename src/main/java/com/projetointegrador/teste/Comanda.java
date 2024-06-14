@@ -4,9 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
+
+import com.projetointegrador.compras.Vendas;
 
 @Entity
 public class Comanda {
@@ -21,6 +23,10 @@ public class Comanda {
     private double preco;
     private double total;
     private Integer idDaMesa;
+
+    @ManyToOne
+    @JoinColumn(name = "venda_id")
+    private Vendas venda;
 
     public Comanda() {
 

@@ -203,9 +203,9 @@
                             <div>100</div>
                         </div>
                         <div class="form-actions">
-                            <p:commandButton value="Finalizar" styleClass="finalize" />
-                            <p:commandButton value="Cancelar" styleClass="cancel" />
-                          
+
+                            <p:button value="Voltar" outcome="home.xhtml" styleClass="cancel" />
+                            <p:commandButton value="Finalizar" styleClass="finalize" oncomplete="voltarHome()" action="#{cardapioControler.finalizarVenda(mesaControl.mesa)}" />
                             <p:commandButton value="Imprimir Preparo" styleClass="print" />
                         </div>
                         <div id="teste">
@@ -228,5 +228,10 @@
         </p:dialog>
 
     </h:body>
+    <script>
+        function voltarHome() {
+            window.location.href = "home.xhtml";
+        }
+    </script>
 
     </html>

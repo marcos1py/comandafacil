@@ -20,7 +20,7 @@ public class MesaControl implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public Mesa mesa = new Mesa();
-    private List<Mesa> mesas;
+    public List<Mesa> mesas;
     private Mesa mesaTemp;
 
     public static Integer numeroDaMesa;

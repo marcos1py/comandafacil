@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
+
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.projetointegrador.compras.Vendas;
+import com.projetointegrador.compras.VendasDao;
 import com.projetointegrador.home.Mesa;
 import com.projetointegrador.home.MesaControl;
 import com.projetointegrador.home.MesaDao;
@@ -40,6 +44,10 @@ public class CardapioControler implements Serializable {
     private MesaDao mesaDao;
 
     @Autowired
+    private VendasDao vendasDao;
+    
+
+    @Autowired
     private MesaControl mesaControl;
 
     @Autowired
@@ -60,22 +68,20 @@ public class CardapioControler implements Serializable {
         this.comanda = new Comanda();
         criarLista(mesaControl.numeroDaMesa);
     }
+
     public void addItensMesaTemp(Mesa mesa) {
         Integer idDaMesa = mesa.getId();
         boolean itemUpdated = false;
-    
-        // Check if the item already exists in comandaDao
+
         for (Comanda comanda : comandaDao.findAll()) {
             if (comanda.getIdDaMesa().equals(idDaMesa) && comanda.getNome().equals(itemDoCardapio.getName())) {
-                // If the item exists, update the quantity
                 comanda.setQuantidade(comanda.getQuantidade() + itemDoCardapio.getQuantity());
                 comandaDao.save(comanda);
                 itemUpdated = true;
                 break;
             }
         }
-    
-        // If the item does not exist, add it as a new item
+
         if (!itemUpdated) {
             Comanda newComanda = new Comanda();
             newComanda.setIdDaMesa(idDaMesa);
@@ -84,8 +90,7 @@ public class CardapioControler implements Serializable {
             newComanda.setQuantidade(itemDoCardapio.getQuantity());
             comandaDao.save(newComanda);
         }
-    
-        // Clear and repopulate the temporary list
+
         listaTempDaMesa.clear();
         for (Comanda comanda : comandaDao.findAll()) {
             if (comanda.getIdDaMesa().equals(idDaMesa)) {
@@ -96,17 +101,41 @@ public class CardapioControler implements Serializable {
                 listaTempDaMesa.add(temp);
             }
         }
-    
-        // Reset itemDoCardapio and call reseta method
+
         itemDoCardapio = new ItemDoCardapio();
         reseta();
-    
-        // Print the quantities of items in the temporary list for debugging
+
         for (ItemDoCardapio item : listaTempDaMesa) {
             System.out.println(item.getQuantity());
         }
     }
-    
+
+    public void finalizarVenda(Mesa mesaAtual) {
+
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa() == mesaAtual.getId()) {
+                Vendas venda = new Vendas();
+                venda.setData(LocalDate.now());
+                venda.setFormaPagamento("Dinheiro");
+                venda.setValorTotal(comanda.getPreco() * comanda.getQuantidade());
+                venda.setNumeroDaMesa(mesaAtual.getId());
+                vendasDao.save(venda);
+                comandaDao.delete(comanda);
+            }
+        }
+
+        //resetar os dados daquela mesa
+        for (Mesa mesa : mesaDao.findAll()) {
+            if (mesa.getId() == mesaAtual.getId()) {
+                mesa.reinicializarAtributos();
+                mesaDao.save(mesa);
+                mesaControl.mesa = mesa;
+                mesaControl.setMesas(mesaDao.findAll());
+            }
+        }
+
+    }
+
     public void criarLista(Integer idMesa) {
         System.out.println(idMesa);
         listaTempDaMesa.clear();
