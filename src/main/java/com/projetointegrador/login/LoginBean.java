@@ -1,9 +1,11 @@
 package com.projetointegrador.login;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.springframework.stereotype.Component;
@@ -26,6 +28,12 @@ public class LoginBean implements Serializable {
             return null;
         }
     }    
+    
+    // Limpar a sessão, realizar logout
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
 
     public String getUsername() {
         return username;

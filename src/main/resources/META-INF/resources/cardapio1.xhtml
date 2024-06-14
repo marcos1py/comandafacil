@@ -130,6 +130,11 @@
                                     <f:selectItem itemLabel="Alcool" itemValue="Alcool" />
                                 </p:selectOneRadio>
                             </div>
+                            <div class="field">
+                                <p:outputLabel for="imagem">Imagem</p:outputLabel>
+                                <p:fileUpload id="imagem" mode="advanced" label="Escolher Imagem" required="true" fileUploadListener="#{bean.handleFileUpload}" auto="true" accept="image/*" />
+                            </div>
+                            
                             <div class="formgrid grid">
                                 <div class="field col">
                                     <p:outputLabel for="price">Price</p:outputLabel>

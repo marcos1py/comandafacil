@@ -162,7 +162,7 @@
 </h:head>
 
 <h:body style="background-color: #DDAC7E;">
-    <ui:include src="includes/navbar.xhtml" />
+    <ui:include src="includes/navbar.xhtml" />  
     <div class="container">
         <div class="header">
             <h1>COMANDA: Mesa #{mesaControl.mesa.numero}</h1>
@@ -269,115 +269,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function adicionarItem(itemId) {
-            var descricao;
-            var precoUnitario;
-
-            switch (itemId) {
-                case 1:
-                    descricao = "Refrigerante Lata Coca";
-                    precoUnitario = 5.0;
-                    break;
-                case 2:
-                    descricao = "Hamburguer";
-                    precoUnitario = 15.0;
-                    break;
-                case 3:
-                    descricao = "Refrigerante 600ml Fanta Uva";
-                    precoUnitario = 8.0;
-                    break;
-                case 4:
-                    descricao = "Porção Batata com Bacon Grande";
-                    precoUnitario = 20.0;
-                    break;
-                case 5:
-                    descricao = "Cachorro Quente Super";
-                    precoUnitario = 10.0;
-                    break;
-                case 6:
-                    descricao = "Americano";
-                    precoUnitario = 12.0;
-                    break;
-                case 7:
-                    descricao = "X Salada";
-                    precoUnitario = 18.0;
-                    break;
-                case 8:
-                    descricao = "Refrigerante 600ml Coca";
-                    precoUnitario = 8.0;
-                    break;
-                case 9:
-                    descricao = "X Tudo";
-                    precoUnitario = 22.0;
-                    break;
-                case 10:
-                    descricao = "X Burguer";
-                    precoUnitario = 16.0;
-                    break;
-                case 11:
-                    descricao = "X Bacon";
-                    precoUnitario = 17.0;
-                    break;
-                case 12:
-                    descricao = "Refrigerante 1 Litro Sprite";
-                    precoUnitario = 10.0;
-                    break;
-                default:
-                    descricao = "";
-                    precoUnitario = 0.0;
-                    break;
-            }
-
-            // Monta o objeto de item selecionado
-            var itemSelecionado = {
-                descricao: descricao,
-                precoUnitario: precoUnitario,
-                quantidade: 1,
-                subtotal: precoUnitario
-            };
-
-            // Atualiza os campos do formulário com os valores do item selecionado
-            document.getElementById('formComanda:descricao').value = itemSelecionado.descricao;
-            document.getElementById('formComanda:quantidade').value = itemSelecionado.quantidade;
-            document.getElementById('formComanda:precoUnitario').value = itemSelecionado.precoUnitario.toFixed(2);
-
-            // Atualiza a lista de itens do pedido (tabela)
-            var table = document.getElementById('itensComanda');
-            var row = table.insertRow();
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-
-            cell1.innerHTML = itemSelecionado.descricao;
-            cell2.innerHTML = itemSelecionado.precoUnitario.toFixed(2);
-            cell3.innerHTML = itemSelecionado.quantidade;
-            cell4.innerHTML = itemSelecionado.subtotal.toFixed(2);
-            cell5.innerHTML = '<p:commandButton value="Excluir" actionListener="#{comandaBean.excluirItem(item)}" update="itensComanda, total" styleClass="exclude-item-button"/>';
-
-            // Calcula e atualiza o total
-            var total = document.getElementById('total');
-            var totalValue = parseFloat(total.innerHTML.replace('Total: ', '').trim());
-            totalValue += itemSelecionado.subtotal;
-            total.innerHTML = 'Total: ' + totalValue.toFixed(2);
-
-            // Chama o p:remoteCommand para adicionar o item na comanda no backend
-            adicionarItemComanda([{ name: 'descricao', value: itemSelecionado.descricao }, { name: 'quantidade', value: itemSelecionado.quantidade }, { name: 'precoUnitario', value: itemSelecionado.precoUnitario }]);
-        }
-
-        function excluirItem(button) {
-            var row = button.parentNode.parentNode;
-            var subtotal = parseFloat(row.cells[3].innerHTML);
-            var total = document.getElementById('total');
-            var totalValue = parseFloat(total.innerHTML.replace('Total: ', '').trim());
-            totalValue -= subtotal;
-            total.innerHTML = 'Total: ' + totalValue.toFixed(2);
-            row.parentNode.removeChild(row);
-        }
-    </script>
 </h:body>
 
 </html>

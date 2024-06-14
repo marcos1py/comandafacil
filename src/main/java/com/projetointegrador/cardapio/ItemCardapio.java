@@ -1,10 +1,6 @@
 package com.projetointegrador.cardapio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class ItemCardapio {
@@ -13,17 +9,23 @@ public class ItemCardapio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    public String nome;
-    public double precoUnitario;
-    public String descricao;
+    private String nome;
+    private double precoUnitario;
+    private String descricao;
 
     @ManyToOne
+    @JoinColumn(name = "cardapio_id")
     private Cardapio cardapio;
+
+    @Lob
+    private byte[] image;
+
+    // Getters e Setters
 
     public Integer getId() {
         return id;
     }
-    
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -36,6 +38,21 @@ public class ItemCardapio {
         this.nome = nome;
     }
 
+    public double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(double precoUnitario) {
+        this.precoUnitario = precoUnitario;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public Cardapio getCardapio() {
         return cardapio;
@@ -45,27 +62,11 @@ public class ItemCardapio {
         this.cardapio = cardapio;
     }
 
-
-
-    public String getDescricao() {
-        return descricao;
+    public byte[] getImage() {
+        return image;
     }
 
-
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-
-
-    public double getPrecoUnitario() {
-        return precoUnitario;
-    }
-
-
-
-    public void setPrecoUnitario(double precoUnitario) {
-        this.precoUnitario = precoUnitario;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
