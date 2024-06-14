@@ -1,9 +1,17 @@
 package com.projetointegrador.home;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import com.projetointegrador.teste.ItemDoCardapio;
 
 @Entity
 public class Mesa {
@@ -19,6 +27,12 @@ public class Mesa {
     private String tempoChegada = "";
     private String status = "Livre";
     private double totalPagar = 0.0;
+    
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+@JoinColumn(name = "mesa_id")
+private List<ItemDoCardapio> listaDaMesa;
+
+
 
     // Getters and Setters
     public Integer getId() {
@@ -31,7 +45,6 @@ public class Mesa {
         this.tempoChegada = ""; 
         this.totalPagar = 0.0; 
         this.status = "Livre"; 
-
     }
     public void setId(Integer id) {
         this.id = id;
@@ -90,4 +103,13 @@ public class Mesa {
     public void setStatus(String status) {
         this.status = status;
     }
+    public List<ItemDoCardapio> getListaDaMesa() {
+        return listaDaMesa;
+    }
+    public void setListaDaMesa(List<ItemDoCardapio> listaDaMesa) {
+        this.listaDaMesa = listaDaMesa;
+    }
+    
+    
+    
 }

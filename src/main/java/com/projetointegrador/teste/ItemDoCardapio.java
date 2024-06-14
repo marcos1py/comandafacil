@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.CriteriaBuilder.In;
 
-import com.projetointegrador.cardapio.Cardapio;
+import com.projetointegrador.home.Mesa;
 
 import javax.persistence.*;
-
 
 @Table(name = "item_do_cardapio")
 @Entity
@@ -23,14 +23,16 @@ public class ItemDoCardapio implements Serializable {
     private String image;
     private double price;
     private String category;
+    public Integer quantity;
 
     @ManyToOne
-    private Cardapio cardapio;
+    private Mesa mesa;
 
     public ItemDoCardapio() {
     }
 
-    public ItemDoCardapio(int id, String code, String name, String description, String image, double price, String category) {
+    public ItemDoCardapio(int id, String code, String name, String description, String image, double price,
+            String category) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -38,20 +40,21 @@ public class ItemDoCardapio implements Serializable {
         this.image = image;
         this.price = price;
         this.category = category;
-     
     }
 
     @Override
     public ItemDoCardapio clone() {
-        return new ItemDoCardapio(getId(), getCode(), getName(), getDescription(), getImage(), getPrice(), getCategory());
+        return new ItemDoCardapio(getId(), getCode(), getName(), getDescription(), getImage(), getPrice(),
+                getCategory());
     }
 
-    public Cardapio getCardapio() {
-        return cardapio;
-    }
-
-    public void setCardapio(Cardapio cardapio) {
-        this.cardapio = cardapio;
+    public void reinicia() {
+        this.code = "";
+        this.name = "";
+        this.description = "";
+        this.price = 0.0;
+        this.category = "";
+        this.quantity = 0;
     }
 
     public Integer getId() {
@@ -110,8 +113,6 @@ public class ItemDoCardapio implements Serializable {
         this.category = category;
     }
 
-
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -137,5 +138,17 @@ public class ItemDoCardapio implements Serializable {
         } else {
             return code.equals(other.code);
         }
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
     }
 }

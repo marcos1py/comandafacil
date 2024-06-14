@@ -2,8 +2,8 @@ package com.projetointegrador.teste;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -11,30 +11,41 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
-import org.primefaces.shaded.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
-import com.projetointegrador.cardapio.ItemCardapio;
+import com.projetointegrador.home.Mesa;
+import com.projetointegrador.home.MesaControl;
+import com.projetointegrador.home.MesaDao;
 
-@Named
-@ViewScoped
+@Component("cardapioControler")
+@SessionScope
 public class CardapioControler implements Serializable {
-
+    public int quatidadeTemp;
     private static final long serialVersionUID = 1L;
-
     private List<ItemDoCardapio> itensDoCardapio;
     private ItemDoCardapio selecionarItemDoCardapio;
     private List<ItemDoCardapio> selecionarItensDoCardapio;
+    public static List<ItemDoCardapio> listaTempDaMesa; // Lista temporária para os itens da mesa
+    private ItemDoCardapio itemDoCardapio;
     private List<ItemDoCardapio> filteredItensCardapio; // Lista filtrada para exibir resultados da busca
-    private String searchKeyword; // Palavra-chave de busca
+    private String searchKeyword;
+    public static int numeroDaMesa;
 
+    @Autowired
+    private MesaDao mesaDao;
 
+    @Autowired
+    private MesaControl mesaControl;
+
+    @Autowired
+    private ComandaDao comandaDao;
+
+    private Comanda comanda;
 
     @Autowired
     private ItemCardapioDao1 itemCardapioDao1;
@@ -43,14 +54,81 @@ public class CardapioControler implements Serializable {
     public void init() {
         itensDoCardapio = itemCardapioDao1.findAll();
         this.selecionarItensDoCardapio = new ArrayList<>();
-        filteredItensCardapio = new ArrayList<>(itensDoCardapio); // Inicialmente, a lista filtrada é a mesma dos itens do cardápio
-
+        this.listaTempDaMesa = new ArrayList<>();
+        filteredItensCardapio = new ArrayList<>(itensDoCardapio);
+        itemDoCardapio = new ItemDoCardapio(); // Initialize itemDoCardapio
+        this.comanda = new Comanda();
+        criarLista(mesaControl.numeroDaMesa);
+    }
+    public void addItensMesaTemp(Mesa mesa) {
+        Integer idDaMesa = mesa.getId();
+        boolean itemUpdated = false;
+    
+        // Check if the item already exists in comandaDao
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa().equals(idDaMesa) && comanda.getNome().equals(itemDoCardapio.getName())) {
+                // If the item exists, update the quantity
+                comanda.setQuantidade(comanda.getQuantidade() + itemDoCardapio.getQuantity());
+                comandaDao.save(comanda);
+                itemUpdated = true;
+                break;
+            }
+        }
+    
+        // If the item does not exist, add it as a new item
+        if (!itemUpdated) {
+            Comanda newComanda = new Comanda();
+            newComanda.setIdDaMesa(idDaMesa);
+            newComanda.setNome(itemDoCardapio.getName());
+            newComanda.setPreco(itemDoCardapio.getPrice());
+            newComanda.setQuantidade(itemDoCardapio.getQuantity());
+            comandaDao.save(newComanda);
+        }
+    
+        // Clear and repopulate the temporary list
+        listaTempDaMesa.clear();
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa().equals(idDaMesa)) {
+                ItemDoCardapio temp = new ItemDoCardapio();
+                temp.setName(comanda.getNome());
+                temp.setPrice(comanda.getPreco());
+                temp.setQuantity(comanda.getQuantidade());
+                listaTempDaMesa.add(temp);
+            }
+        }
+    
+        // Reset itemDoCardapio and call reseta method
+        itemDoCardapio = new ItemDoCardapio();
+        reseta();
+    
+        // Print the quantities of items in the temporary list for debugging
+        for (ItemDoCardapio item : listaTempDaMesa) {
+            System.out.println(item.getQuantity());
+        }
+    }
+    
+    public void criarLista(Integer idMesa) {
+        System.out.println(idMesa);
+        listaTempDaMesa.clear();
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa() == idMesa) {
+                ItemDoCardapio temp = new ItemDoCardapio();
+                temp.setName(comanda.getNome());
+                temp.setPrice(comanda.getPreco());
+                temp.setQuantity(comanda.getQuantidade());
+                listaTempDaMesa.add(temp);
+            }
+        }
     }
 
-        public void search() {
+    public void search() {
         filteredItensCardapio = itensDoCardapio.stream()
                 .filter(item -> item.getName().toLowerCase().contains(searchKeyword.toLowerCase()))
                 .collect(Collectors.toList());
+    }
+
+    public void reseta() {
+        itemDoCardapio.reinicia();
     }
 
     public List<ItemDoCardapio> getItensDoCardapio() {
@@ -63,6 +141,14 @@ public class CardapioControler implements Serializable {
 
     public void setSelecionarItemDoCardapio(ItemDoCardapio selecionarItemDoCardapio) {
         this.selecionarItemDoCardapio = selecionarItemDoCardapio;
+    }
+
+    public int getQuatidadeTemp() {
+        return quatidadeTemp;
+    }
+
+    public void setQuatidadeTemp(int quatidadeTemp) {
+        this.quatidadeTemp = quatidadeTemp;
     }
 
     public List<ItemDoCardapio> getSelecionarItensDoCardapio() {
@@ -81,16 +167,16 @@ public class CardapioControler implements Serializable {
         if (this.selecionarItemDoCardapio.getCode() == null) {
             this.selecionarItemDoCardapio.setCode(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
             this.itensDoCardapio.add(this.selecionarItemDoCardapio);
-            itemCardapioDao1.save(this.selecionarItemDoCardapio); // Salvar no banco de dados
+            itemCardapioDao1.save(this.selecionarItemDoCardapio);
             atualizarItensCardapio();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ItemDoCardapio Added"));
         } else {
-            itemCardapioDao1.save(this.selecionarItemDoCardapio); // Atualizar no banco de dados
+            itemCardapioDao1.save(this.selecionarItemDoCardapio);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ItemDoCardapio Updated"));
         }
 
         PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-itensDoCardapio");
+        PrimeFaces.current().ajax().update("form:messages", "form:productScroller");
     }
 
     public void deleteProduct() {
@@ -104,12 +190,10 @@ public class CardapioControler implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:dt-itensDoCardapio");
     }
 
-    // Método auxiliar para atualizar a lista de itens do cardápio e a lista filtrada
     private void atualizarItensCardapio() {
         itensDoCardapio = itemCardapioDao1.findAll();
         filteredItensCardapio = new ArrayList<>(itensDoCardapio); // Atualizar a lista filtrada também
     }
-
 
     public String getDeleteButtonMessage() {
         if (hasSelectedProducts()) {
@@ -134,6 +218,7 @@ public class CardapioControler implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:dt-itensDoCardapio");
         PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
     }
+
     public List<ItemDoCardapio> getFilteredItensCardapio() {
         return filteredItensCardapio;
     }
@@ -149,4 +234,33 @@ public class CardapioControler implements Serializable {
     public void setSearchKeyword(String searchKeyword) {
         this.searchKeyword = searchKeyword;
     }
+
+    public void resetarLista() {
+        this.listaTempDaMesa.clear();
+    }
+
+    public List<ItemDoCardapio> getListaTempDaMesa() {
+        return listaTempDaMesa;
+    }
+
+    public void setListaTempDaMesa(List<ItemDoCardapio> listaTempDaMesa) {
+        this.listaTempDaMesa = listaTempDaMesa;
+    }
+
+    public ItemDoCardapio getItemDoCardapio() {
+        return itemDoCardapio;
+    }
+
+    public void setItemDoCardapio(ItemDoCardapio itemDoCardapio) {
+        this.itemDoCardapio = itemDoCardapio;
+    }
+
+    public Comanda getComanda() {
+        return comanda;
+    }
+
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
+    }
+
 }
