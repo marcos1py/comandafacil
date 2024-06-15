@@ -1,263 +1,245 @@
-    <!DOCTYPE html>
-    <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core"
-        xmlns:spring="http://www.springframework.org/schema/beans">
-    <h:head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Comanda</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/schema/beans">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comanda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            .main {
-                margin-left: 100px;
-                padding: 20px;
-            }
+        .main {
+            margin-left: 100px;
+            padding: 20px;
+        }
 
-            .product-item {
-                display: flex;
-                border: 1px solid #ccc;
-                margin-bottom: 20px;
-            }
+        .product-item {
+            display: flex;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
 
-            .product-image {
-                width: 200px;
-                height: auto;
-                margin-right: 20px;
-            }
+        .product-image {
+            width: 200px;
+            height: auto;
+            margin-right: 20px;
+        }
 
-            .product-details {
-                flex-grow: 1;
-                padding: 10px;
-            }
+        .product-details {
+            flex-grow: 1;
+            padding: 10px;
+        }
 
-            .product-name {
-                font-weight: bold;
-                font-size: 1.2em;
-                margin-bottom: 5px;
-            }
+        .product-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
 
-            .product-description {
-                margin-bottom: 10px;
-            }
+        .product-description {
+            margin-bottom: 10px;
+        }
 
-            .product-price {
-                font-size: 1.2em;
-            }
+        .product-price {
+            font-size: 1.2em;
+        }
 
-            .product-action {
-                margin-top: 10px;
-            }
+        .product-action {
+            margin-top: 10px;
+        }
 
-            .product-button {
-                width: 150px;
-            }
+        .product-button {
+            width: 150px;
+        }
 
-            .form-container {
-                margin-top: 20px;
-            }
+        .form-container {
+            margin-top: 20px;
+        }
 
-            .form-container h2 {
-                font-size: 1.5em;
-                margin-bottom: 10px;
-            }
+        .form-container h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
 
-            .form-group {
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 10px;
-            }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
 
-            .form-group label {
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-            .form-group input {
-                padding: 8px;
-                font-size: 1em;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
+        .form-group input {
+            padding: 8px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-            .form-actions {
-                display: flex;
-            }
+        .form-actions {
+            display: flex;
+        }
 
-            .form-actions button {
-                font-size: 1em;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
+        .form-actions button {
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-            .form-actions button.finalize {
-                background-color: #4CAF50;
-                color: white;
-            }
+        .form-actions button.finalize {
+            background-color: #4CAF50;
+            color: white;
+        }
 
-            .form-actions button.cancel {
-                background-color: #f44336;
-                color: white;
-            }
+        .form-actions button.cancel {
+            background-color: #f44336;
+            color: white;
+        }
 
-            .form-actions button.exit {
-                background-color: #555;
-                color: white;
-            }
+        .form-actions button.exit {
+            background-color: #555;
+            color: white;
+        }
 
-            .form-actions button.print {
-                background-color: #008CBA;
-                color: white;
-            }
+        .form-actions button.print {
+            background-color: #008CBA;
+            color: white;
+        }
 
-            .ui-dialog .ui-dialog-content {
-                padding: 15px;
-            }
-        </style>
-    </h:head>
-
-<<<<<<< HEAD
-.product-button {
-    width: 150px;
-}
-
-
+        .ui-dialog .ui-dialog-content {
+            padding: 15px;
+        }
     </style>
 </h:head>
 
 <h:body style="background-color: #DDAC7E;">
-    <ui:include src="includes/navbar.xhtml" />  
-    <div class="container">
-        <div class="header">
-            <h1>COMANDA: Mesa #{mesaControl.mesa.numero}</h1>
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{cardapioControler.criarLista(mesaControl.mesa.id)}" />
+    </f:metadata>
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{cardapioControler.calcularValorTotalTELA()}" />
+    </f:metadata>
+    <ui:include src="includes/navbar.xhtml" />
+    <ui:include src="includes/logo.xhtml" />
+    <div class="main">
+        <div class="left-side">
+            <h2>Cardápio Rápido</h2>
         </div>
+        <p:panelGrid columns="4">
+            <h:form>
+                <p:inputText id="searchInput" value="#{cardapioControler.searchKeyword}"
+                    placeholder="Digite sua busca" />
 
-        <div class="">
-=======
-    <h:body style="background-color: #DDAC7E;">
-        <f:metadata>
-            <f:event type="preRenderView" listener="#{cardapioControler.criarLista(mesaControl.mesa.id)}" />
-        </f:metadata>
-        
-        <ui:include src="includes/navbar.xhtml" />
-        <ui:include src="includes/logo.xhtml" />
-        <div class="main">
->>>>>>> 67434c2ec738f504bb252e2ce90fdf5a91325bc1
-            <div class="left-side">
-                <h2>Cardápio Rápido</h2>
-            </div>
-            <p:panelGrid columns="4">
-                <h:form>
-                    <p:inputText id="searchInput" value="#{cardapioControler.searchKeyword}"
-                        placeholder="Digite sua busca" />
+                <p:commandButton value="Buscar" action="#{cardapioControler.search}" update="productScroller" />
 
-                    <p:commandButton value="Buscar" action="#{cardapioControler.search}" update="productScroller" />
+                <p:dataScroller id="productScroller" value="#{cardapioControler.filteredItensCardapio}" var="item"
+                    chunkSize="10" styleClass="product-scroller" mode="inline" scrollHeight="400">
+                    <f:facet name="name">Itens do Cardápio</f:facet>
 
-                    <p:dataScroller id="productScroller" value="#{cardapioControler.filteredItensCardapio}" var="item"
-                        chunkSize="10" styleClass="product-scroller" mode="inline" scrollHeight="400">
-                        <f:facet name="name">Itens do Cardápio</f:facet>
-
-                        <div class="product-item">
-                            <p:graphicImage name="img/comida.jpg" styleClass="product-image" />
-                            <div class="product-details">
-                                <div class="product-name">#{item.name}</div>
-                                <div class="product-description">#{item.description}</div>
-                                <div class="product-price">
-                                    <h:outputText value="#{item.price}" styleClass="product-price">
-                                        <f:convertNumber currencySymbol="$" type="currency" />
-                                    </h:outputText>
-                                </div>
-                                <div class="product-action">
-                                    <p:commandButton value="Adicionar" icon="pi pi-shopping-cart"
-                                        actionListener="#{cardapioControler.setItemDoCardapio(item)}"
-                                        oncomplete="PF('dialogQuantidade').show()" update=":formDialog">
-                                    </p:commandButton>
-                                </div>
+                    <div class="product-item">
+                        <p:graphicImage name="img/comida.jpg" styleClass="product-image" />
+                        <div class="product-details">
+                            <div class="product-name">#{item.name}</div>
+                            <div class="product-description">#{item.description}</div>
+                            <div class="product-price">
+                                <h:outputText value="#{item.price}" styleClass="product-price">
+                                    <f:convertNumber currencySymbol="$" type="currency" />
+                                </h:outputText>
+                            </div>
+                            <div class="product-action">
+                                <p:commandButton value="Adicionar" icon="pi pi-shopping-cart"
+                                    actionListener="#{cardapioControler.setItemDoCardapio(item)}"
+                                    oncomplete="PF('dialogQuantidade').show()" update=":formDialog">
+                                </p:commandButton>
                             </div>
                         </div>
-                    </p:dataScroller>
+                    </div>
+                </p:dataScroller>
 
-                </h:form>
+            </h:form>
 
-                <div class="form-container">
+            <div class="form-container">
 
-                    <h:form id="idForm2">
-                        <div class="form-group">
-                            <label for="idMesaNumero">Mesa:</label>
-                            <p:inputText id="idMesaNumero" value="#{mesaControl.mesa.numero}" disabled="true" placeholder="Número da Mesa" />
-                        </div>
-                        <div class="form-group">
-                            <label for="idCodigoMesa">Código da Mesa:</label>
-                            <p:inputText id="idCodigoMesa" value="#{mesaControl.mesa.id}" disabled="true" placeholder="Código da Mesa" />
-                        </div>
-                       
-                        <p:dataTable var="product" value="#{cardapioControler.listaTempDaMesa}" scrollHeight="250" scrollable="true">
-                            <p:column headerText="Nome">
-                                <h:outputText value="#{product.name}"  />
+                <h:form id="idForm2">
+                    <div class="form-group">
+                        <label for="idMesaNumero">Mesa:</label>
+                        <p:inputText id="idMesaNumero" value="#{mesaControl.mesa.numero}" disabled="true"
+                            placeholder="Número da Mesa" />
+                    </div>
+                    <div class="form-group">
+                        <label for="idCodigoMesa">Código da Mesa:</label>
+                        <p:inputText id="idCodigoMesa" value="#{mesaControl.mesa.id}" disabled="true"
+                            placeholder="Código da Mesa" />
+                    </div>
+
+                    <p:dataTable var="product" value="#{cardapioControler.listaTempDaMesa}" scrollHeight="250"
+                        scrollable="true">
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{product.name}" />
+                        </p:column>
+
+                        <p:column headerText="Preço">
+                            <h:outputText value="#{product.price}" />
+                        </p:column>
+
+                        <p:column headerText="Quantity">
+                            <h:outputText value="#{product.quantity}" />
+                        </p:column>
+                        <p:column exportable="false" ariaHeaderText="Actions">
+                            <p:column style="width:80px">
+                                <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger"
+                                                 actionListener="#{cardapioControler.deleteItemDaMesa(product)}"
+                                                 update="idForm2" />
                             </p:column>
-
-                            <p:column headerText="Preço">
-                                <h:outputText value="#{product.price}" />
-                            </p:column>
-
-                            <p:column headerText="Quantity">
-                                <h:outputText value="#{product.quantity}"  />
-                            </p:column>
-                            <p:column exportable="false" ariaHeaderText="Actions">
-                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
-                                    oncomplete="PF('deleteProductDialog').show()">
-                                    <f:setPropertyActionListener value="#{product}" target="" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                        <div class="form-group">
-                            <label>Total:</label>
-                            <div>100</div>
-                        </div>
-                        <div class="form-actions">
-
-                            <p:button value="Voltar" outcome="home.xhtml" styleClass="cancel" />
-                            <p:commandButton value="Finalizar" styleClass="finalize" oncomplete="voltarHome()" action="#{cardapioControler.finalizarVenda(mesaControl.mesa)}" />
-                            <p:commandButton value="Imprimir Preparo" styleClass="print" />
-                        </div>
-                        <div id="teste">
                             
-                        </div>
-                    </h:form>
-                </div>
+                        </p:column>
+                    </p:dataTable>
+                    <div class="form-group">
+                        <label>Total:</label>
+                        <div>#{cardapioControler.valorTotalTELA}</div>
+                    </div>
+                    <div class="form-actions">
 
-            </p:panelGrid>
-        </div>
-<<<<<<< HEAD
+                        <p:button value="Voltar" outcome="home.xhtml" styleClass="cancel" />
+                        <p:commandButton value="Finalizar" styleClass="finalize" oncomplete="voltarHome()"
+                            action="#{cardapioControler.finalizarVenda(mesaControl.mesa)}" />
+                        <p:commandButton value="Imprimir Preparo" styleClass="print" />
+                    </div>
+                    <div id="teste">
+
+                    </div>
+                </h:form>
+            </div>
+
+        </p:panelGrid>
     </div>
+
+    <p:dialog header="Quantidade do Item" showEffect="fade" modal="true" widgetVar="dialogQuantidade" responsive="true">
+        <h:form id="formDialog">
+            <p:outputLabel value="Quantidade:" />
+            <p:inputText id="quantity" value="#{cardapioControler.itemDoCardapio.quantity}" />
+
+            <p:commandButton value="Salvar" actionListener="#{cardapioControler.addItensMesaTemp(mesaControl.mesa)}"
+                process="@form" update="idForm2" oncomplete="PF('dialogQuantidade').hide()" />
+        </h:form>
+    </p:dialog>
+
 </h:body>
+<script>
+    function voltarHome() {
+        window.location.href = "home.xhtml";
+    }
+</script>
 
 </html>
-=======
-       
-        <p:dialog header="Quantidade do Item" showEffect="fade" modal="true" widgetVar="dialogQuantidade" responsive="true">
-            <h:form id="formDialog">
-                <p:outputLabel value="Quantidade:" />
-                <p:inputText id="quantity" value="#{cardapioControler.itemDoCardapio.quantity}" />
-        
-                <p:commandButton value="Salvar" actionListener="#{cardapioControler.addItensMesaTemp(mesaControl.mesa)}" process="@form"
-                    update="idForm2" oncomplete="PF('dialogQuantidade').hide()"/>
-            </h:form>
-        </p:dialog>
-
-    </h:body>
-    <script>
-        function voltarHome() {
-            window.location.href = "home.xhtml";
-        }
-    </script>
-
-    </html>
->>>>>>> 67434c2ec738f504bb252e2ce90fdf5a91325bc1

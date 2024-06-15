@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.projetointegrador.home.MesaDao;
 import com.projetointegrador.teste.*;
 
 @Entity
@@ -23,40 +26,47 @@ public class Vendas {
     private String formaPagamento;
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
     private List<Comanda> comandas;
-    
 
     public Vendas() {
+        
     }
-    
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public LocalDate getData() {
         return data;
     }
+
     public void setData(LocalDate data) {
         this.data = data;
     }
-    
-  
+
     public double getValorTotal() {
         return valorTotal;
     }
+
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
+
     public String getFormaPagamento() {
         return formaPagamento;
     }
+
     public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
+
     public List<Comanda> getComandas() {
         return comandas;
     }
+
     public void setComandas(List<Comanda> comandas) {
         this.comandas = comandas;
     }

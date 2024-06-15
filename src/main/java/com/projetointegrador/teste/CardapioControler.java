@@ -3,7 +3,6 @@ package com.projetointegrador.teste;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.time.LocalDate;
 
 import java.util.UUID;
@@ -11,9 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +37,15 @@ public class CardapioControler implements Serializable {
     private String searchKeyword;
     public static int numeroDaMesa;
 
+    private static List<Vendas> listaDeVendas;
+
+    public static int valorTotalTELA;
+
     @Autowired
     private MesaDao mesaDao;
 
     @Autowired
     private VendasDao vendasDao;
-    
 
     @Autowired
     private MesaControl mesaControl;
@@ -67,6 +67,7 @@ public class CardapioControler implements Serializable {
         itemDoCardapio = new ItemDoCardapio(); // Initialize itemDoCardapio
         this.comanda = new Comanda();
         criarLista(mesaControl.numeroDaMesa);
+        this.listaDeVendas = vendasDao.findAll();
     }
 
     public void addItensMesaTemp(Mesa mesa) {
@@ -77,6 +78,7 @@ public class CardapioControler implements Serializable {
             if (comanda.getIdDaMesa().equals(idDaMesa) && comanda.getNome().equals(itemDoCardapio.getName())) {
                 comanda.setQuantidade(comanda.getQuantidade() + itemDoCardapio.getQuantity());
                 comandaDao.save(comanda);
+                calcularValorTotalTELA();
                 itemUpdated = true;
                 break;
             }
@@ -98,7 +100,7 @@ public class CardapioControler implements Serializable {
                 temp.setName(comanda.getNome());
                 temp.setPrice(comanda.getPreco());
                 temp.setQuantity(comanda.getQuantidade());
-                listaTempDaMesa.add(temp);
+                listaTempDaMesa.add(temp);                
             }
         }
 
@@ -108,6 +110,19 @@ public class CardapioControler implements Serializable {
         for (ItemDoCardapio item : listaTempDaMesa) {
             System.out.println(item.getQuantity());
         }
+    }
+
+    public void criarListaDeVendas() {
+        this.listaDeVendas = vendasDao.findAll();
+    }
+
+    public void calcularValorTotalTELA() {
+        int valorTotal = 0;
+        valorTotalTELA = 0;
+        for (ItemDoCardapio item : listaTempDaMesa) {
+            valorTotal += item.getPrice() * item.getQuantity();
+        }
+        valorTotalTELA = valorTotal;
     }
 
     public void finalizarVenda(Mesa mesaAtual) {
@@ -120,11 +135,12 @@ public class CardapioControler implements Serializable {
                 venda.setValorTotal(comanda.getPreco() * comanda.getQuantidade());
                 venda.setNumeroDaMesa(mesaAtual.getId());
                 vendasDao.save(venda);
+                setListaDeVendas(vendasDao.findAll());;
                 comandaDao.delete(comanda);
             }
         }
 
-        //resetar os dados daquela mesa
+        // resetar os dados daquela mesa
         for (Mesa mesa : mesaDao.findAll()) {
             if (mesa.getId() == mesaAtual.getId()) {
                 mesa.reinicializarAtributos();
@@ -149,6 +165,8 @@ public class CardapioControler implements Serializable {
             }
         }
     }
+
+    
 
     public void search() {
         filteredItensCardapio = itensDoCardapio.stream()
@@ -178,6 +196,15 @@ public class CardapioControler implements Serializable {
 
     public void setQuatidadeTemp(int quatidadeTemp) {
         this.quatidadeTemp = quatidadeTemp;
+    }
+    
+
+    public static List<Vendas> getListaDeVendas() {
+        return listaDeVendas;
+    }
+
+    public static void setListaDeVendas(List<Vendas> listaDeVendas) {
+        CardapioControler.listaDeVendas = listaDeVendas;
     }
 
     public List<ItemDoCardapio> getSelecionarItensDoCardapio() {
@@ -219,6 +246,18 @@ public class CardapioControler implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:dt-itensDoCardapio");
     }
 
+    public void deleteItemDaMesa(ItemDoCardapio item) {
+        for (Comanda comanda : comandaDao.findAll()) {
+            if (comanda.getIdDaMesa() == mesaControl.getMesa().getId() && comanda.getNome().equals(item.getName())) {
+                comandaDao.delete(comanda);
+                break;
+            }
+        }
+        listaTempDaMesa.remove(item);
+        calcularValorTotalTELA();
+    }
+    
+
     private void atualizarItensCardapio() {
         itensDoCardapio = itemCardapioDao1.findAll();
         filteredItensCardapio = new ArrayList<>(itensDoCardapio); // Atualizar a lista filtrada também
@@ -235,6 +274,15 @@ public class CardapioControler implements Serializable {
 
     public boolean hasSelectedProducts() {
         return this.selecionarItensDoCardapio != null && !this.selecionarItensDoCardapio.isEmpty();
+    }
+
+    // Getters e setters para valorTotalTELA, se necessário
+    public int getValorTotalTELA() {
+        return valorTotalTELA;
+    }
+
+    public void setValorTotalTELA(int valorTotalTELA) {
+        this.valorTotalTELA = valorTotalTELA;
     }
 
     public void deleteSelectedProducts() {

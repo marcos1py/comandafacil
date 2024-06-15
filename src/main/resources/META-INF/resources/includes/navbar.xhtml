@@ -54,7 +54,7 @@
 
         <p:button id="estoqueButton"   icon="pi pi-fw pi-box" styleClass="ui-button-flat" style="color: #fff;" outcome="/gestaoestoque.xhtml" />
 
-        <p:button id="relatorioButton"  icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat" style="color: #fff;" outcome="/relatorio.xhtml" />
+        <p:button id="relatorioButton"  icon="pi pi-fw pi-chart-bar" styleClass="ui-button-flat" style="color: #fff;" action="Vendas.criarListaVendas()" outcome="/relatorio.xhtml" />
 
         <h:form>
             <p:commandButton id="sairButton" icon="pi pi-fw pi-sign-out" styleClass="ui-button-flat" style="color: #fff;" action="#{loginBean.logout}" />
