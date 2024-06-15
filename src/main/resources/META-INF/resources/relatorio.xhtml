@@ -1,178 +1,184 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Comanda Facil</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            
-            .main {
-                margin-left: 100px;
-                padding: 20px;
-            }
-            
-            .dataTablesContainer {
-                display: flex;
-                justify-content: space-between;
-            }
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Comanda Fácil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #DDAC7E;
+        }
 
-            .dataTable {
-                width: 48%;
-            }
+        .main {
+            margin-left: 100px;
+            padding: 20px;
+        }
 
-            .fieldsContainer {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 5px;
-            }
+        .fieldsContainer {
+            display: flex;
+            justify-content: space-between;
+        }
 
-            .field {
-                width: 48%;
-            }
+        .field {
+            width: 48%;
+        }
 
-            .field label {
-                font-size: 16px;
-            }
+        .field label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
 
-            .field .ui-inputfield {
-                font-size: 16px; 
-            }
+        .field .ui-inputfield {
+            font-size: 16px;
+            width: 100%;
+        }
 
-            .fieldContainer {
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
-                margin-bottom: 20px;
-            }
+        .dataTable {
+            width: 100%;
+            margin-top: 20px;
+        }
 
-            .field {
-                width: 48%;
-            }
+        .vendasPorContainer {
+            margin-bottom: 20px;
+        }
 
-            .ui-outputlabel, .ui-inputfield {
-                font-size: 16px;
-            }
+        .vendasPorContainer h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-            .ui-calendar {
-                width: 100%;
-            }
+        .ui-selectmanycheckbox {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+        }
 
-            .vendasPorContainer {
-                align-self: flex-start;
-                margin-bottom: 20px;
-            }
+        .ui-selectmanycheckbox .ui-chkbox-box {
+            margin-right: 5px;
+        }
 
-        </style>
-    </h:head>
-    <h:body style="background-color: #DDAC7E;">
-        <ui:include src="includes/navbar.xhtml" />
-        <ui:include src="includes/logo.xhtml" />
+        .ui-button {
+            background-color: #5B3C31 !important;
+            color: white !important;
+            margin-right: 10px;
+        }
 
-        <div class="main">
-            <h3>Relatorio</h3>
+        .ui-button.ui-icon-left {
+            padding-left: 15px;
+        }
 
+        .ui-dialog-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .limite {
+            width: 18%;
+        }
+    </style>
+</h:head>
+<h:body>
+    <ui:include src="includes/navbar.xhtml" />
+    <ui:include src="includes/logo.xhtml" />
+
+    <div class="main">
+        <h3>Relatório</h3>
+
+        <div class="limite">
             <div class="fieldsContainer">
                 <div class="field">
-                    <p:outputLabel for="ano" value="Ano"/>
+                    <p:outputLabel for="ano" value="Ano" />
                     <p:calendar id="ano" value="#{selectOneMenuView.ano}" showButtonPanel="true" dateFormat="yy" yearRange="1900:2100" />
                 </div>
-        
+    
                 <div class="field">
-                    <p:outputLabel for="mes" value="Mes"/>
+                    <p:outputLabel for="mes" value="Mês" />
                     <p:selectOneMenu id="mes" value="#{selectOneMenuView.mes}">
-                        <f:selectItem itemLabel="Selecione" itemValue=""/>
-                        <f:selectItem itemLabel="Janeiro" itemValue="01"/>
-                        <f:selectItem itemLabel="Fevereiro" itemValue="02"/>
-                        <f:selectItem itemLabel="Março" itemValue="03"/>
-                        <f:selectItem itemLabel="Abril" itemValue="04"/>
-                        <f:selectItem itemLabel="Maio" itemValue="05"/>
-                        <f:selectItem itemLabel="Junho" itemValue="06"/>
-                        <f:selectItem itemLabel="Julho" itemValue="07"/>
-                        <f:selectItem itemLabel="Agosto" itemValue="08"/>
-                        <f:selectItem itemLabel="Setembro" itemValue="09"/>
-                        <f:selectItem itemLabel="Outubro" itemValue="10"/>
-                        <f:selectItem itemLabel="Novembro" itemValue="11"/>
-                        <f:selectItem itemLabel="Dezembro" itemValue="12"/>
+                        <f:selectItem itemLabel="Selecione" itemValue="" />
+                        <f:selectItem itemLabel="Janeiro" itemValue="01" />
+                        <f:selectItem itemLabel="Fevereiro" itemValue="02" />
+                        <f:selectItem itemLabel="Março" itemValue="03" />
+                        <f:selectItem itemLabel="Abril" itemValue="04" />
+                        <f:selectItem itemLabel="Maio" itemValue="05" />
+                        <f:selectItem itemLabel="Junho" itemValue="06" />
+                        <f:selectItem itemLabel="Julho" itemValue="07" />
+                        <f:selectItem itemLabel="Agosto" itemValue="08" />
+                        <f:selectItem itemLabel="Setembro" itemValue="09" />
+                        <f:selectItem itemLabel="Outubro" itemValue="10" />
+                        <f:selectItem itemLabel="Novembro" itemValue="11" />
+                        <f:selectItem itemLabel="Dezembro" itemValue="12" />
                     </p:selectOneMenu>
                 </div>
             </div>
+        </div>
+        
 
-            <div style="display: flex; justify-content: flex-end; margin: 20px;">
-                <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button" value="Adicionar " icon="pi pi-plus" iconPos="right" onclick="PF('dialogoGerarRelatorio').show()" />
-            </div>
-
-            <div class="dataTablesContainer">
-                <p:dataTable var="product" value="#{dtBasicView.itensDoCardapio}" class="dataTable">
-                    <p:column field="Data" filterable="false" />
-                    <p:column headerText="N° de venda" sortBy="#{customer.name}">
-                        <h:outputText value="#{customer.name}" />
-                    </p:column>
-                    <p:column headerText="Cliente" var="venda" sortBy="#{customer.name}">
-                        <h:outputText value="#{venda.nome}" />
-                    </p:column>
-                    <p:column headerText="Desconto" sortBy="#{customer.name}">
-                        <h:outputText value="#{customer.name}" />
-                    </p:column>
-                    <p:column headerText="Pagamento" sortBy="#{customer.name}" >
-                        <h:outputText value="#{customer.name}" />
-                    </p:column>
-                </p:dataTable>
-
-                <p:dataTable var="product" value="#{dtBasicView.itensDoCardapio}" class="dataTable">
-
-                    <p:column headerText="Descrição do Item" sortBy="#{customer.name}">
-                        <h:outputText value="#{customer.name}" />
-                    </p:column>
-
-                    <p:column headerText="Quantidade" var="venda" sortBy="#{customer.name}">
-                        <h:outputText value="#{venda.nome}" />
-                    </p:column>
-
-                </p:dataTable>
-            </div>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+            <p:commandButton styleClass="ui-button ui-icon-left" type="button" value="Adicionar " icon="pi pi-plus" onclick="PF('dialogoGerarRelatorio').show()" />
         </div>
 
-        <p:dialog header="Adicionar Mesa" widgetVar="dialogoGerarRelatorio" modal="true" resizable="false">
-            <h:form style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto;">
+        <p:dataTable var="venda" value="#{dtBasicView.itensDoCardapio}" class="dataTable">
+            <p:column headerText="Data">
+                <h:outputText value="#{venda.data}" />
+            </p:column>
+            <p:column headerText="N° de venda">
+                <h:outputText value="#{venda.numeroVenda}" />
+            </p:column>
+            <p:column headerText="Cliente">
+                <h:outputText value="#{venda.cliente}" />
+            </p:column>
+            <p:column headerText="Desconto">
+                <h:outputText value="#{venda.desconto}" />
+            </p:column>
+            <p:column headerText="Pagamento">
+                <h:outputText value="#{venda.pagamento}" />
+            </p:column>
+        </p:dataTable>
+    </div>
 
-                <div class="fieldContainer">
-                    <div class="field">
-                        <p:outputLabel for="inicio" value="Inicio"/>
-                        <p:calendar id="inicio" value="#{selectOneMenuView.inicio}" showButtonPanel="true" dateFormat="yy" yearRange="1900:2100">
-                        </p:calendar>
-                    </div>
+    <p:dialog header="Adicionar Mesa" widgetVar="dialogoGerarRelatorio" modal="true" resizable="false">
+        <h:form style="display: flex; flex-direction: column; align-items: center;">
 
-                    <div class="field">
-                        <p:outputLabel for="termino" value="Termino"/>
-                        <p:calendar id="termino" value="#{selectOneMenuView.termino}" showButtonPanel="true" dateFormat="yy" yearRange="1900:2100">
-                        </p:calendar>
-                    </div>
+            <div class="fieldsContainer">
+                <div class="field">
+                    <p:outputLabel for="inicio" value="Início" />
+                    <p:calendar id="inicio" value="#{selectOneMenuView.inicio}" showButtonPanel="true" dateFormat="yy" yearRange="1900:2100" />
                 </div>
 
-                <div class="vendasPorContainer">
-                    <h3>Vendas por:</h3>
-
-                    <p:selectManyCheckbox id="basicAjax" value="#{checkboxView.selectedOptions}" widgetVar="blub">
-                        <p:ajax listener="#{checkboxView.selectedOptionsChanged}" />
-                        <f:selectItem itemLabel="Clientes" itemValue="clientes"/>
-                        <f:selectItem itemLabel="Produto" itemValue="produto"/>
-                    </p:selectManyCheckbox>
+                <div class="field">
+                    <p:outputLabel for="termino" value="Término" />
+                    <p:calendar id="termino" value="#{selectOneMenuView.termino}" showButtonPanel="true" dateFormat="yy" yearRange="1900:2100" />
                 </div>
+            </div>
 
-                <p:dataTable var="product" value="#{dtBasicView.itensDoCardapio}">
-                    <p:column headerText="Código" sortBy="#{customer.name}">
-                        <h:outputText value="#{customer.name}" />
-                    </p:column>
+            <div class="vendasPorContainer">
+                <h3>Vendas por:</h3>
 
-                    <p:column headerText="Descrição do produto" sortBy="#{customer.name}">
-                        <h:outputText value="#{venda.nome}" />
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-        </p:dialog>
-    </h:body>
+                <p:selectManyCheckbox id="basicAjax" value="#{checkboxView.selectedOptions}" widgetVar="blub">
+                    <p:ajax listener="#{checkboxView.selectedOptionsChanged}" />
+                    <f:selectItem itemLabel="Clientes" itemValue="clientes" />
+                    <f:selectItem itemLabel="Produto" itemValue="produto" />
+                </p:selectManyCheckbox>
+            </div>
+
+            <p:dataTable var="product" value="#{dtBasicView.itensDoCardapio}" class="dataTable">
+                <p:column headerText="Código">
+                    <h:outputText value="#{product.codigo}" />
+                </p:column> 
+                <p:column headerText="Descrição do produto">
+                    <h:outputText value="#{product.descricao}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</h:body>
 </html>

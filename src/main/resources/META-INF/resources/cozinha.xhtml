@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            position: relative; /* Garante que as posições absolutas sejam relativas ao corpo */
         }
 
         .main {
@@ -47,6 +48,57 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             cursor: move;
+        }
+
+        .premium-dialog-background {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* fundo escuro com opacidade */
+            z-index: 999; /* abaixo do pop-up, mas acima dos outros elementos */
+        }
+
+        .premium-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Z-index maior para ficar acima do fundo escuro */
+        }
+
+        .premium-dialog.active {
+            display: block;
+        }
+
+        .premium-dialog-content {
+            overflow: auto;
+            text-align: center;
+        }
+
+        .premium-message {
+            font-size: 50px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .premium-link {
+            font-weight: bold;
+            color: #5B3C31; /* cor de fundo */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .premium-link:hover {
+            text-decoration: underline;
         }
     </style>
 </h:head>
@@ -91,5 +143,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Fundo escuro -->
+    <div class="premium-dialog-background #{!bean.usuarioAssinouPremium ? 'active' : ''}"
+         onclick="fecharEAbrePopup()">
+    </div>
+
+    <!-- Pop-up -->
+    <div id="premiumPopup" class="premium-dialog #{!bean.usuarioAssinouPremium ? 'active' : ''}">
+        <div class="premium-dialog-content">
+            <span class="premium-message">Para usar essa funcionalidade, é necessário assinar nosso serviço Premium.</span>
+            <br/>
+            <a href="#" class="premium-link">Clique aqui para assinar.</a>
+            <br/>
+            <p:commandButton value="Fechar" onclick="fecharEAbrePopup()" />
+        </div>
+    </div>
+
+    <script>
+         function fecharEAbrePopup() {
+                var popup = document.getElementById('premiumPopup');
+                popup.classList.remove('active');
+                setTimeout(function() {
+                    popup.classList.add('active');
+                }, 10); // pequeno atraso para permitir a remoção e adição de classes
+            }
+    </script>
+
 </h:body>
 </html>

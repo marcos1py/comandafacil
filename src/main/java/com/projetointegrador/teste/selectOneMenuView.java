@@ -1,4 +1,4 @@
-package com.projetointegrador.cardapio;
+package com.projetointegrador.teste;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
