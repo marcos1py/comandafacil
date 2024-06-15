@@ -87,6 +87,9 @@
     </style>
 </h:head>
 <h:body>
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{vendasControler.criarListaDAVENDAS1()}" />
+    </f:metadata>
     <ui:include src="includes/navbar.xhtml" />
     <ui:include src="includes/logo.xhtml" />
 
