@@ -41,7 +41,7 @@
                                 icon="pi pi-exclamation-triangle" />
                         </p:commandButton>
                     </p:toolbarGroup>
-                    <p:toolbarGroup align="right">
+                    <p:toolbarGroup aling="right">
                         <p:fileUpload mode="simple" skinSimple="true" label="Import" chooseIcon="pi pi-download" />
                         <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                             <p:dataExporter type="pdf" target="dt-itensDoCardapio" fileName="itensDoCardapio" />
@@ -150,8 +150,12 @@
 
         
                     <f:facet name="footer">
-                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{cardapioControler.saveProduct}"
-                            update="manage-product-content" process="manage-product-content @this" />
+                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{cardapioControler.saveProduct}"
+                            update="manage-product-content" process="manage-product-content @this" oncomplete="recarregarPagina()">
+    
+                        </p:commandButton>
+                            
+                           
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
                             class="ui-button-secondary" type="button" />
                     </f:facet>
@@ -176,5 +180,9 @@
     </div>
 
 </h:body>
-
+<script>
+    function recarregarPagina() {
+        location.reload();
+    }
+</script>
 </html>
