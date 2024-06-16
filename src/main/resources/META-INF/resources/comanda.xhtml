@@ -87,6 +87,8 @@
         }
 
         .form-actions {
+            margin-top: 10px;
+            padding-top: 10px;
             display: flex;
         }
 
@@ -120,6 +122,15 @@
         .ui-dialog .ui-dialog-content {
             padding: 15px;
         }
+        .form-actions {
+    display: flex; /* Ativa o layout flexível */
+    gap: 10px; /* Define o espaçamento entre os botões */
+}
+
+.form-actions .ui-button {
+    flex: 1; /* Distribui o espaço disponível igualmente entre os botões */
+}
+
     </style>
 </h:head>
 
@@ -209,8 +220,18 @@
                         <label>Total:</label>
                         <div>#{cardapioControler.valorTotalTELA}</div>
                     </div>
-                    <div class="form-actions">
 
+                    
+                    
+                    <p:selectOneMenu id="idTipoPagamento" value="#{cardapioControler.comanda.tipoPagamento}" widgetVar="blub">
+                        <f:selectItem itemLabel="Dinheiro" itemValue="Dinheiro" />
+                        <f:selectItem itemLabel="Cartao credito" itemValue="Cartao credito" />
+                        <f:selectItem itemLabel="Cartao debito" itemValue="Cartao debito" />
+                        <f:selectItem itemLabel="pix" itemValue="pix" />
+                    </p:selectOneMenu><br />
+                        
+                    <div class="form-actions">
+                        
                         <p:button value="Voltar" outcome="home.xhtml" styleClass="cancel" />
                         <p:commandButton value="Finalizar" styleClass="finalize" oncomplete="voltarHome()"
                             action="#{cardapioControler.finalizarVenda(mesaControl.mesa)}" />

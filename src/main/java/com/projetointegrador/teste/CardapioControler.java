@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -100,7 +100,7 @@ public class CardapioControler implements Serializable {
                 temp.setName(comanda.getNome());
                 temp.setPrice(comanda.getPreco());
                 temp.setQuantity(comanda.getQuantidade());
-                listaTempDaMesa.add(temp);                
+                listaTempDaMesa.add(temp);
             }
         }
 
@@ -130,12 +130,16 @@ public class CardapioControler implements Serializable {
         for (Comanda comanda : comandaDao.findAll()) {
             if (comanda.getIdDaMesa() == mesaAtual.getId()) {
                 Vendas venda = new Vendas();
-                venda.setData(LocalDate.now());
-                venda.setFormaPagamento("Dinheiro");
+                LocalDateTime agora = LocalDateTime.now();
+                venda.setData(agora);
+                venda.setFormaPagamento(comanda.getTipoPagamento());
+                venda.setAlimento(comanda.getNome());
                 venda.setValorTotal(comanda.getPreco() * comanda.getQuantidade());
-                venda.setNumeroDaMesa(mesaAtual.getId());
+                venda.setNumeroDaMesa(mesaAtual.getNumero());
+                venda.getFormaPagamento();
                 vendasDao.save(venda);
-                setListaDeVendas(vendasDao.findAll());;
+                setListaDeVendas(vendasDao.findAll());
+                ;
                 comandaDao.delete(comanda);
             }
         }
@@ -166,8 +170,6 @@ public class CardapioControler implements Serializable {
         }
     }
 
-    
-
     public void search() {
         filteredItensCardapio = itensDoCardapio.stream()
                 .filter(item -> item.getName().toLowerCase().contains(searchKeyword.toLowerCase()))
@@ -197,7 +199,6 @@ public class CardapioControler implements Serializable {
     public void setQuatidadeTemp(int quatidadeTemp) {
         this.quatidadeTemp = quatidadeTemp;
     }
-    
 
     public static List<Vendas> getListaDeVendas() {
         return listaDeVendas;
@@ -256,7 +257,6 @@ public class CardapioControler implements Serializable {
         listaTempDaMesa.remove(item);
         calcularValorTotalTELA();
     }
-    
 
     private void atualizarItensCardapio() {
         itensDoCardapio = itemCardapioDao1.findAll();

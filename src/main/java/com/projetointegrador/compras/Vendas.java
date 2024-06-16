@@ -1,6 +1,8 @@
 package com.projetointegrador.compras;
 
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,10 +22,12 @@ public class Vendas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private LocalDate data;
+    private LocalDateTime data;
     private double valorTotal;
     private int numeroDaMesa;
     private String formaPagamento;
+    private String alimento;
+
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
     private List<Comanda> comandas;
 
@@ -31,6 +35,8 @@ public class Vendas {
         
     }
 
+
+    
     public Integer getId() {
         return id;
     }
@@ -39,11 +45,11 @@ public class Vendas {
         this.id = id;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 
@@ -78,5 +84,22 @@ public class Vendas {
     public void setNumeroDaMesa(int numeroDaMesa) {
         this.numeroDaMesa = numeroDaMesa;
     }
+    
+    // Método para formatar a data até os minutos
+    public String getDataFormatada() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return formatter.format(this.getData());
+    }
 
+
+
+    public String getAlimento() {
+        return alimento;
+    }
+
+
+
+    public void setAlimento(String alimento) {
+        this.alimento = alimento;
+    }
 }

@@ -115,8 +115,7 @@
                     <h:outputLabel for="tempoChegada" value="Tempo (Horas de Chegada):" />
                     <p:inputText id="tempoChegada" value="#{mesaControl.mesa.tempoChegada}"
                         label="Tempo (Horas de Chegada)" />
-                    <h:outputLabel for="totalPagar" value="Total a Pagar:" />
-                    <p:inputText id="totalPagar" value="#{mesaControl.mesa.totalPagar}" label="Total a Pagar" />
+                    
                     <h:panelGrid columns="4" cellpadding="5">
                         <p:commandButton value="Abrir mesa" process="@form, @this"
                             action="#{mesaControl.atualizarDadosDaMesa}"

@@ -23,6 +23,7 @@ public class Comanda {
     private double preco;
     private double total;
     private Integer idDaMesa;
+    private String tipoPagamento;
 
     @ManyToOne
     @JoinColumn(name = "venda_id")
@@ -45,6 +46,16 @@ public class Comanda {
         return nome;
     }
 
+
+
+    public String getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+
+    public void setTipoPagamento(String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
 
 
     public void setNome(String nome) {

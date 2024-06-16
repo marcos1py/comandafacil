@@ -104,7 +104,10 @@
                 <h:outputText value="#{venda.id}" />
             </p:column>
             <p:column headerText="Data" sortBy="#{venda.data}" filterBy="#{venda.data}">
-                <h:outputText value="#{venda.data}" />
+                <h:outputText value="#{venda.dataFormatada}" />
+            </p:column>
+            <p:column headerText="Aliemento" sortBy="#{venda.alimento}" filterBy="#{venda.alimento}">
+                <h:outputText value="#{venda.alimento}" />
             </p:column>
             <p:column headerText="Valor Total" sortBy="#{venda.valorTotal}" filterBy="#{venda.valorTotal}">
                 <h:outputText value="#{venda.valorTotal}" />
@@ -112,12 +115,12 @@
             <p:column headerText="Nº da Mesa" sortBy="#{venda.numeroDaMesa}" filterBy="#{venda.numeroDaMesa}">
                 <h:outputText value="#{venda.numeroDaMesa}" />
             </p:column>
-            <p:column headerText="Forma de Pagamento" sortBy="#{venda.formaPagamento}"
-                filterBy="#{venda.formaPagamento}">
+            <p:column headerText="Forma de Pagamento" sortBy="#{venda.formaPagamento}" filterBy="#{venda.formaPagamento}">
                 <h:outputText value="#{venda.formaPagamento}" />
             </p:column>
         </p:dataTable>
-
+        
+        
     </div>
 
     <p:dialog header="Gerar Relatorio" widgetVar="dialogoGerarRelatorio" modal="true" resizable="false">
