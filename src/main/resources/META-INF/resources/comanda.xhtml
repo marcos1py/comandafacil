@@ -122,15 +122,78 @@
         .ui-dialog .ui-dialog-content {
             padding: 15px;
         }
+
         .form-actions {
-    display: flex; /* Ativa o layout flexível */
-    gap: 10px; /* Define o espaçamento entre os botões */
-}
+            display: flex;
+            /* Ativa o layout flexível */
+            gap: 10px;
+            /* Define o espaçamento entre os botões */
+        }
 
-.form-actions .ui-button {
-    flex: 1; /* Distribui o espaço disponível igualmente entre os botões */
-}
+        .form-actions .ui-button {
+            flex: 1;
+            /* Distribui o espaço disponível igualmente entre os botões */
+        }
 
+        .print-dialog {
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .print-dialog .print-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .print-dialog .print-header h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .print-dialog .print-content {
+            margin-bottom: 20px;
+        }
+
+        .print-dialog .product-item {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .print-dialog .product-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .print-dialog .product-price {
+            font-size: 1.1em;
+        }
+
+        .print-dialog .print-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .print-dialog .print-actions button {
+            font-size: 1em;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @page {
+            size: auto;
+            /* auto is the initial value */
+            margin: 10mm;
+            /* this affects the margin in the printer settings */
+        }
     </style>
 </h:head>
 
@@ -171,7 +234,7 @@
                             <div class="product-action">
                                 <p:commandButton value="Adicionar" icon="pi pi-shopping-cart"
                                     actionListener="#{cardapioControler.setItemDoCardapio(item)}"
-                                    oncomplete="PF('dialogQuantidade').show()" update=":formDialog">
+                                    oncomplete="PF('dialogQuantidade').show()" update=":formDialog, :idDialogImprimir">
                                 </p:commandButton>
                             </div>
                         </div>
@@ -210,10 +273,9 @@
                         <p:column exportable="false" ariaHeaderText="Actions">
                             <p:column style="width:80px">
                                 <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger"
-                                                 actionListener="#{cardapioControler.deleteItemDaMesa(product)}"
-                                                 update="idForm2" />
+                                    actionListener="#{cardapioControler.deleteItemDaMesa(product)}" update="idForm2" />
                             </p:column>
-                            
+
                         </p:column>
                     </p:dataTable>
                     <div class="form-group">
@@ -221,21 +283,23 @@
                         <div>#{cardapioControler.valorTotalTELA}</div>
                     </div>
 
-                    
-                    
-                    <p:selectOneMenu id="idTipoPagamento" value="#{cardapioControler.comanda.tipoPagamento}" widgetVar="blub">
+
+
+                    <p:selectOneMenu id="idTipoPagamento" value="#{cardapioControler.comanda.tipoPagamento}"
+                        widgetVar="blub">
                         <f:selectItem itemLabel="Dinheiro" itemValue="Dinheiro" />
                         <f:selectItem itemLabel="Cartao credito" itemValue="Cartao credito" />
                         <f:selectItem itemLabel="Cartao debito" itemValue="Cartao debito" />
                         <f:selectItem itemLabel="pix" itemValue="pix" />
                     </p:selectOneMenu><br />
-                        
+
                     <div class="form-actions">
-                        
+
                         <p:button value="Voltar" outcome="home.xhtml" styleClass="cancel" />
                         <p:commandButton value="Finalizar" styleClass="finalize" oncomplete="voltarHome()"
                             action="#{cardapioControler.finalizarVenda(mesaControl.mesa)}" />
-                        <p:commandButton value="Imprimir Preparo" styleClass="print" />
+                            <p:commandButton value="Imprimir Preparo" styleClass="print" oncomplete="PF('printDialog').show();" update=":idDialogImprimir" />
+
                     </div>
                     <div id="teste">
 
@@ -255,6 +319,39 @@
                 process="@form" update="idForm2" oncomplete="PF('dialogQuantidade').hide()" />
         </h:form>
     </p:dialog>
+
+    <p:dialog header="Preparo do Pedido" widgetVar="printDialog" modal="true" draggable="false" resizable="false"
+        showEffect="fade" width="600" hideEffect="fade" styleClass="print-dialog">
+
+        <h:panelGroup  id="idDialogImprimir">
+
+            
+        <div class="print-content">
+
+            <p:dataTable var="product" value="#{cardapioControler.listaTempDaMesa}" scrollHeight="250"
+                scrollable="true">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{product.name}" />
+                </p:column>
+
+                <p:column headerText="Preço">
+                    <h:outputText value="#{product.price}" />
+                </p:column>
+
+                <p:column headerText="Quantity">
+                    <h:outputText value="#{product.quantity}" />
+                </p:column>
+            </p:dataTable>
+        </div>
+
+        <div class="form-actions">
+            <p:commandButton value="Imprimir" onclick="PF('printDialog').hide();"  />
+            <p:commandButton value="Fechar" onclick="PF('printDialog').hide();" />
+        </div>
+    </h:panelGroup>
+
+    </p:dialog>
+
 
 </h:body>
 <script>
