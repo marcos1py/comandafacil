@@ -21,6 +21,7 @@ import com.projetointegrador.teste.*;
 
 @Entity
 public class Vendas {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,7 +30,7 @@ public class Vendas {
 
     private double valorTotal;
     private int numeroDaMesa;
-    private String formaPagamento;
+    private String formaPagamento = "DINHEIRO";
     private String alimento;
 
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)

@@ -74,11 +74,12 @@
 
     <div class="main">
         <h:form id="formHome">
-            <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
+            <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom: 10px;">
                 <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
                     actionListener="#{mesaControl.mesa.reinicializarAtributos}" value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right"
                     onclick="PF('dialogoAddMesa').show();" />
             </div>
+            
             <div id="idMesas" class="mesas-container">
                 <ui:repeat value="#{mesaControl.mesas}" var="mesa">
                     <div class="mesa">
@@ -117,7 +118,7 @@
                     <h:panelGrid columns="4" cellpadding="5">
                         <p:commandButton value="Abrir mesa" process="@form, @this"
                             action="#{mesaControl.atualizarDadosDaMesa}"
-                            onclick="window.location.href='comanda.xhtml'; return false;"
+                            oncomplete="mudarDeTela()"
                             style="background-color: blue;" />
                         <p:commandButton value="Salvar" update=":formHome" action="#{mesaControl.atualizarDadosDaMesa}"
                             oncomplete="PF('dialogoMesa').hide(); recarregarPagina()" process="@form, @this"
@@ -147,6 +148,9 @@
 <script>
     function recarregarPagina() {
         location.reload();
+    }
+    function mudarDeTela() {
+        window.location.href='comanda.xhtml';
     }
 </script>
 

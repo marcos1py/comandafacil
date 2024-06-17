@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -23,19 +26,39 @@ import com.projetointegrador.home.Mesa;
 import com.projetointegrador.home.MesaControl;
 import com.projetointegrador.home.MesaDao;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.CroppedImage;
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.file.UploadedFiles;
+import org.primefaces.shaded.commons.io.FilenameUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import java.nio.file.Paths;
+
+
 @Component("cardapioControler")
 @SessionScope
 public class CardapioControler implements Serializable {
     public int quatidadeTemp;
     private static final long serialVersionUID = 1L;
     private List<ItemDoCardapio> itensDoCardapio;
-    private ItemDoCardapio selecionarItemDoCardapio;
     private List<ItemDoCardapio> selecionarItensDoCardapio;
     public static List<ItemDoCardapio> listaTempDaMesa; // Lista temporária para os itens da mesa
     private ItemDoCardapio itemDoCardapio;
     private List<ItemDoCardapio> filteredItensCardapio; // Lista filtrada para exibir resultados da busca
     private String searchKeyword;
     public static int numeroDaMesa;
+    
+
+    private UploadedFile file;
+    private ItemDoCardapio selecionarItemDoCardapio;
+
 
     private static List<Vendas> listaDeVendas;
 
@@ -69,6 +92,35 @@ public class CardapioControler implements Serializable {
         criarLista(mesaControl.numeroDaMesa);
         this.listaDeVendas = vendasDao.findAll();
     }
+
+    
+    public void handleFileUpload(FileUploadEvent event) {
+        this.file = event.getFile();
+        if (file != null) {
+            System.out.println("File uploaded: " + file.getFileName());
+        } else {
+            System.out.println("File upload failed, file is null.");
+        }
+    }
+    
+    public void upload() {
+
+        if (file != null) {
+            System.out.println("File uploaded: " + file.getFileName());
+        } else {
+            System.out.println("File upload failed, file is null.");
+        }
+    }
+    
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    
 
     public void addItensMesaTemp(Mesa mesa) {
         Integer idDaMesa = mesa.getId();
@@ -224,18 +276,15 @@ public class CardapioControler implements Serializable {
 
     public void saveProduct() {
         if (this.selecionarItemDoCardapio.getCode() == null) {
+            this.selecionarItemDoCardapio.setImage("comida.jpg");
             this.selecionarItemDoCardapio.setCode(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
             this.itensDoCardapio.add(this.selecionarItemDoCardapio);
             itemCardapioDao1.save(this.selecionarItemDoCardapio);
             atualizarItensCardapio();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ItemDoCardapio Added"));
         } else {
             itemCardapioDao1.save(this.selecionarItemDoCardapio);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ItemDoCardapio Updated"));
         }
 
-        PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:productScroller");
     }
 
     public void deleteProduct() {
@@ -245,8 +294,6 @@ public class CardapioControler implements Serializable {
         filteredItensCardapio.remove(this.selecionarItemDoCardapio); // Remover da lista filtrada também
 
         this.selecionarItemDoCardapio = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ItemDoCardapio Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-itensDoCardapio");
     }
 
     public void deleteItemDaMesa(ItemDoCardapio item) {
@@ -294,7 +341,6 @@ public class CardapioControler implements Serializable {
         this.itensDoCardapio.removeAll(this.selecionarItensDoCardapio);
         this.selecionarItensDoCardapio = null;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Products Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-itensDoCardapio");
         PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
     }
 
@@ -321,6 +367,11 @@ public class CardapioControler implements Serializable {
     public List<ItemDoCardapio> getListaTempDaMesa() {
         return listaTempDaMesa;
     }
+    
+
+
+
+
 
     public void setListaTempDaMesa(List<ItemDoCardapio> listaTempDaMesa) {
         this.listaTempDaMesa = listaTempDaMesa;
@@ -337,6 +388,9 @@ public class CardapioControler implements Serializable {
     public Comanda getComanda() {
         return comanda;
     }
+
+
+
 
     public void setComanda(Comanda comanda) {
         this.comanda = comanda;

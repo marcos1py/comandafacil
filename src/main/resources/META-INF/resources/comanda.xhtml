@@ -27,8 +27,8 @@
         }
 
         .product-image {
-            width: 200px;
-            height: auto;
+           max-width: 150px;
+           max-height: 150px;
             margin-right: 20px;
         }
 
@@ -222,7 +222,7 @@
                     <f:facet name="name">Itens do Cardápio</f:facet>
 
                     <div class="product-item">
-                        <p:graphicImage name="img/comida.jpg" styleClass="product-image" />
+                        <p:graphicImage name="img/#{item.image}" styleClass="product-image" />
                         <div class="product-details">
                             <div class="product-name">#{item.name}</div>
                             <div class="product-description">#{item.description}</div>
@@ -295,10 +295,13 @@
 
                     <div class="form-actions">
 
-                        <p:button value="Voltar" outcome="home.xhtml" styleClass="cancel" />
+                        <p:commandButton value="Voltar" styleClass="cancel" oncomplete="voltarHome()"
+                            action="#{cardapioControler.colocarOcupada(mesaControl.mesa)}" />
+
                         <p:commandButton value="Finalizar" styleClass="finalize" oncomplete="voltarHome()"
                             action="#{cardapioControler.finalizarVenda(mesaControl.mesa)}" />
-                            <p:commandButton value="Imprimir Preparo" styleClass="print" oncomplete="PF('printDialog').show();" update=":idDialogImprimir" />
+                        <p:commandButton value="Imprimir Preparo" styleClass="print"
+                            oncomplete="PF('printDialog').show();" update=":idDialogImprimir" />
 
                     </div>
                     <div id="teste">
@@ -323,32 +326,32 @@
     <p:dialog header="Preparo do Pedido" widgetVar="printDialog" modal="true" draggable="false" resizable="false"
         showEffect="fade" width="600" hideEffect="fade" styleClass="print-dialog">
 
-        <h:panelGroup  id="idDialogImprimir">
+        <h:panelGroup id="idDialogImprimir">
 
-            
-        <div class="print-content">
 
-            <p:dataTable var="product" value="#{cardapioControler.listaTempDaMesa}" scrollHeight="250"
-                scrollable="true">
-                <p:column headerText="Nome">
-                    <h:outputText value="#{product.name}" />
-                </p:column>
+            <div class="print-content">
 
-                <p:column headerText="Preço">
-                    <h:outputText value="#{product.price}" />
-                </p:column>
+                <p:dataTable var="product" value="#{cardapioControler.listaTempDaMesa}" scrollHeight="250"
+                    scrollable="true">
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{product.name}" />
+                    </p:column>
 
-                <p:column headerText="Quantity">
-                    <h:outputText value="#{product.quantity}" />
-                </p:column>
-            </p:dataTable>
-        </div>
+                    <p:column headerText="Preço">
+                        <h:outputText value="#{product.price}" />
+                    </p:column>
 
-        <div class="form-actions">
-            <p:commandButton value="Imprimir" onclick="PF('printDialog').hide();"  />
-            <p:commandButton value="Fechar" onclick="PF('printDialog').hide();" />
-        </div>
-    </h:panelGroup>
+                    <p:column headerText="Quantity">
+                        <h:outputText value="#{product.quantity}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+            <div class="form-actions">
+                <p:commandButton value="Imprimir" onclick="PF('printDialog').hide();" />
+                <p:commandButton value="Fechar" onclick="PF('printDialog').hide();" />
+            </div>
+        </h:panelGroup>
 
     </p:dialog>
 

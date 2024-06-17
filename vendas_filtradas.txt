@@ -1,0 +1,3 @@
+Itens vendidos:
+Número da mesa mais frequente: -1
+Alimento mais frequente: null

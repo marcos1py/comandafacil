@@ -63,6 +63,8 @@ public class MesaControl implements Serializable {
         mesa = new Mesa();
     }
 
+
+
     public void atualizarDadosDaMesa() {
         
         cardapioControler.criarLista(mesa.getId());

@@ -85,6 +85,10 @@
     </style>
 </h:head>
 <h:body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+        crossorigin="anonymous"></script>
+
     <f:metadata>
         <f:event type="preRenderView" listener="#{vendasControler.criarListaDAVENDAS1()}" />
     </f:metadata>
@@ -118,49 +122,33 @@
             <p:column headerText="Nº da Mesa" sortBy="#{venda.numeroDaMesa}" filterBy="#{venda.numeroDaMesa}">
                 <h:outputText value="#{venda.numeroDaMesa}" />
             </p:column>
-            <p:column headerText="Forma de Pagamento" sortBy="#{venda.formaPagamento}" filterBy="#{venda.formaPagamento}">
+            <p:column headerText="Forma de Pagamento" sortBy="#{venda.formaPagamento}"
+                filterBy="#{venda.formaPagamento}">
                 <h:outputText value="#{venda.formaPagamento}" />
             </p:column>
         </p:dataTable>
-        
-        
+
+
     </div>
 
-    <p:dialog header="Gerar Relatorio" widgetVar="dialogoGerarRelatorio" modal="true" resizable="false">
-        <h:form style="display: flex; flex-direction: column; align-items: center;">
-
+    <p:dialog header="Gerar Relatório" widgetVar="dialogoGerarRelatorio" modal="true" resizable="false">
+        <h:form id="idTeste" style="display: flex; flex-direction: column; align-items: center;">
             <div class="fieldsContainer">
                 <div class="field">
                     <p:outputLabel for="inicio" value="Início" />
-                    <p:calendar id="inicio" value="#{selectOneMenuView.inicio}" showButtonPanel="true" dateFormat="yy"
-                        yearRange="1900:2100" />
+                    <p:calendar id="inicio" value="#{vendasControler.dataInicio}" showButtonPanel="true"
+                        dateFormat="dd/MM/yyyy" yearRange="1900:2100" />
                 </div>
 
                 <div class="field">
                     <p:outputLabel for="termino" value="Término" />
-                    <p:calendar id="termino" value="#{selectOneMenuView.termino}" showButtonPanel="true" dateFormat="yy"
-                        yearRange="1900:2100" />
+                    <p:calendar id="termino" value="#{vendasControler.dataFim}" showButtonPanel="true"
+                        dateFormat="dd/MM/yyyy" yearRange="1900:2100" />
                 </div>
             </div>
+            <p:commandButton value="GERAR RELATORIO" action="#{vendasControler.filtrarVendas}" update=":idTeste"
+                oncomplete="exibirGrafico()" />
 
-            <div class="vendasPorContainer">
-                <h3>Vendas por:</h3>
-
-                <p:selectManyCheckbox id="basicAjax" value="#{checkboxView.selectedOptions}" widgetVar="blub">
-                    <p:ajax listener="#{checkboxView.selectedOptionsChanged}" />
-                    <f:selectItem itemLabel="Clientes" itemValue="clientes" />
-                    <f:selectItem itemLabel="Produto" itemValue="produto" />
-                </p:selectManyCheckbox>
-            </div>
-
-            <p:dataTable var="product" value="#{dtBasicView.itensDoCardapio}" class="dataTable">
-                <p:column headerText="Código">
-                    <h:outputText value="#{product.codigo}" />
-                </p:column>
-                <p:column headerText="Descrição do produto">
-                    <h:outputText value="#{product.descricao}" />
-                </p:column>
-            </p:dataTable>
         </h:form>
     </p:dialog>
 </h:body>
