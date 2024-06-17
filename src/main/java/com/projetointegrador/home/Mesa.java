@@ -1,5 +1,7 @@
 package com.projetointegrador.home;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,7 +26,7 @@ public class Mesa {
     private boolean ocupada;
     private int ocupantes = 0;
     private String cupom = "";
-    private String tempoChegada = "";
+    private Date tempoChegada;
     private String status = "Livre";
     private double totalPagar = 0.0;
     
@@ -42,7 +44,7 @@ private List<ItemDoCardapio> listaDaMesa;
         this.ocupada = false;
         this.ocupantes = 0; 
         this.cupom = ""; 
-        this.tempoChegada = ""; 
+        this.tempoChegada = null; 
         this.totalPagar = 0.0; 
         this.status = "Livre"; 
     }
@@ -82,11 +84,11 @@ private List<ItemDoCardapio> listaDaMesa;
         this.cupom = cupom;
     }
 
-    public String getTempoChegada() {
+    public Date getTempoChegada() {
         return tempoChegada;
     }
 
-    public void setTempoChegada(String tempoChegada) {
+    public void setTempoChegada(Date tempoChegada) {
         this.tempoChegada = tempoChegada;
     }
 

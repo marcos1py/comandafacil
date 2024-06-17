@@ -2,6 +2,10 @@ package com.projetointegrador.home;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
@@ -44,16 +48,16 @@ public class MesaControl implements Serializable {
     public void adicionarMesa() {
         mesa.reinicializarAtributos();
         boolean existe = false;
-    
+
         for (Mesa m : mesas) {
             if (mesa.getNumero() == m.getNumero()) {
                 existe = true;
             }
         }
-    
+
         if (!existe) {
             mesaDao.save(mesa);
-            mesas.add(mesa); 
+            mesas.add(mesa);
             System.out.println("Mesa cadastrada com sucesso");
         }
         mesa = new Mesa();
@@ -62,7 +66,6 @@ public class MesaControl implements Serializable {
     public void atualizarDadosDaMesa() {
         cardapioControler.criarLista(mesa.getId());
         cardapioControler.numeroDaMesa = mesa.getId();
-        System.out.println("Numero da mesa: " + cardapioControler.numeroDaMesa);
         Optional<Mesa> mesaOptional = mesaDao.findById(mesa.getNumero());
         Mesa mesaToUpdate = mesaOptional.get();
         mesaToUpdate.setOcupantes(mesa.getOcupantes());
@@ -73,11 +76,9 @@ public class MesaControl implements Serializable {
         int index = mesas.indexOf(mesaToUpdate);
         mesas.set(index, mesaToUpdate);
         this.numeroDaMesa = mesa.getNumero();
-        
+
         mesa.reinicializarAtributos();
-          
     }
-    
 
     public Mesa getMesaTemp() {
         return mesaTemp;

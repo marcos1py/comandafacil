@@ -3,7 +3,6 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:spring="http://www.springframework.org/schema/beans">
-
 <h:head>
     <title>Comanda Facil</title>
     <style>
@@ -77,7 +76,7 @@
         <h:form id="formHome">
             <div style="display: flex; justify-content: flex-end; margin-right: 20px;">
                 <p:commandButton style="background-color: #5B3C31; margin-right: 40px;" type="button"
-                    actionListener="#{mesaControl.mesa.re}" value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right"
+                    actionListener="#{mesaControl.mesa.reinicializarAtributos}" value="ADICIONAR MESA" icon="pi pi-plus" iconPos="right"
                     onclick="PF('dialogoAddMesa').show();" />
             </div>
             <div id="idMesas" class="mesas-container">
@@ -93,15 +92,12 @@
             </div>
         </h:form>
 
-        <p:dialog header="Informações da mesa" id="idDialogoMesa" widgetVar="dialogoMesa" modal="true"
-            resizable="false">
+        <p:dialog header="Informações da mesa" id="idDialogoMesa" closeOnEscape="false" widgetVar="dialogoMesa" modal="true"
+        resizable="false" closable="false">
             <h:form id="formAtualizaMesa">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel value="Número da Mesa:" />
                     <h:outputLabel id="NumeroMesa" value="#{mesaControl.mesa.numero}" />
-                    <h:outputLabel value="Número da Mesa (input):" />
-                    <p:inputText id="NumeroMesainput" value="#{mesaControl.mesa.numero}" disabled="true"
-                        required="false" label="Número da Mesa" />
                     <h:outputLabel value="Mesa status:" />
                     <p:selectOneButton value="#{mesaControl.mesa.status}">
                         <f:selectItem itemLabel="Livre" itemValue="Livre" />
@@ -112,10 +108,12 @@
                     <p:inputText id="ocupantes" value="#{mesaControl.mesa.ocupantes}" label="Ocupantes" />
                     <h:outputLabel for="cupom" value="Cupom:" />
                     <p:inputText id="cupom" value="#{mesaControl.mesa.cupom}" label="Cupom" />
-                    <h:outputLabel for="tempoChegada" value="Tempo (Horas de Chegada):" />
-                    <p:inputText id="tempoChegada" value="#{mesaControl.mesa.tempoChegada}"
-                        label="Tempo (Horas de Chegada)" />
-                    
+
+                    <p:outputLabel value="Tempo (Horas de Chegada)" />
+
+                    <p:calendar id="dateTimeDe"  value="#{mesaControl.mesa.tempoChegada}"  locale="de"
+                        pattern="dd.MM.yyyy HH:mm"/>
+
                     <h:panelGrid columns="4" cellpadding="5">
                         <p:commandButton value="Abrir mesa" process="@form, @this"
                             action="#{mesaControl.atualizarDadosDaMesa}"
@@ -125,7 +123,7 @@
                             oncomplete="PF('dialogoMesa').hide(); recarregarPagina()" process="@form, @this"
                             style="background-color: green;" />
                         <p:commandButton value="Fechar" oncomplete="PF('dialogoMesa').hide();"
-                            style="background-color: red;" />
+                            style="background-color: red;" action="mesaControl.mesa.reinicializarAtributos()" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>
@@ -151,4 +149,5 @@
         location.reload();
     }
 </script>
+
 </html>
