@@ -64,6 +64,7 @@ public class MesaControl implements Serializable {
     }
 
     public void atualizarDadosDaMesa() {
+        
         cardapioControler.criarLista(mesa.getId());
         cardapioControler.numeroDaMesa = mesa.getId();
         Optional<Mesa> mesaOptional = mesaDao.findById(mesa.getNumero());
