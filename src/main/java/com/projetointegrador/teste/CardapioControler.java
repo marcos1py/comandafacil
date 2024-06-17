@@ -131,7 +131,9 @@ public class CardapioControler implements Serializable {
             if (comanda.getIdDaMesa() == mesaAtual.getId()) {
                 Vendas venda = new Vendas();
                 LocalDateTime agora = LocalDateTime.now();
-                venda.setData(agora);
+                venda.setDataFinal(agora);
+                venda.setDataInicio(mesaAtual.getTempoChegada());
+
                 venda.setFormaPagamento(comanda.getTipoPagamento());
                 venda.setAlimento(comanda.getNome());
                 venda.setValorTotal(comanda.getPreco() * comanda.getQuantidade());

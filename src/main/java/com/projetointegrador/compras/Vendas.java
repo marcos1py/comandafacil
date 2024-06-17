@@ -1,8 +1,10 @@
 package com.projetointegrador.compras;
 
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,7 +24,9 @@ public class Vendas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private LocalDateTime data;
+    private LocalDateTime dataFinal;
+    private Date dataInicio;
+
     private double valorTotal;
     private int numeroDaMesa;
     private String formaPagamento;
@@ -45,12 +49,12 @@ public class Vendas {
         this.id = id;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getDataFinal() {
+        return dataFinal;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDataFinal(LocalDateTime dataFinal) {
+        this.dataFinal = dataFinal;
     }
 
     public double getValorTotal() {
@@ -88,10 +92,14 @@ public class Vendas {
     // Método para formatar a data até os minutos
     public String getDataFormatada() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return formatter.format(this.getData());
+        return formatter.format(this.getDataFinal());
     }
 
-
+    // Método para formatar a data até os minutos
+    public String getDataFormatadaInicio() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return formatter.format(this.getDataInicio().toInstant());
+    }
 
     public String getAlimento() {
         return alimento;
@@ -101,5 +109,17 @@ public class Vendas {
 
     public void setAlimento(String alimento) {
         this.alimento = alimento;
+    }
+
+
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
     }
 }
