@@ -1,0 +1,34 @@
+CREATE TABLE mesa (
+    id SERIAL PRIMARY KEY,
+    numero INT NOT NULL,
+    ocupada BOOLEAN NOT NULL,
+    ocupantes INT NOT NULL,
+    cupom VARCHAR(255) NOT NULL,
+    tempoChegada TIMESTAMP,
+    status VARCHAR(255) NOT NULL,
+    totalPagar DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE comanda (
+    id SERIAL PRIMARY KEY,
+    quantidade INT NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    preco DOUBLE PRECISION NOT NULL,
+    total DOUBLE PRECISION NOT NULL,
+    idDaMesa INT,
+    tipoPagamento VARCHAR(255),
+    venda_id INT
+);
+
+
+CREATE TABLE item_do_cardapio (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    price DOUBLE PRECISION NOT NULL,
+    category VARCHAR(255),
+    quantity INT,
+    mesa_id INT
+);
